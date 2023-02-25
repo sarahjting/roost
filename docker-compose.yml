@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  app:
+    depends_on:
+      - db
+    build:
+      context: ./app
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./app:/app
+      - ./app/.m2:/root/.m2
+      - ./infra/dev:/scripts
+    command: sh /scripts/run.sh
+    restart: on-failure
+    working_dir: /app
+    ports:
+      - 8081:8080 # application
+      - 35729:35729 # livereload
+      - 5005:5005 # debugger
+    stdin_open: true
+    tty: true
+  db:
+    image: mariadb:10
+    ports:
+      - '3306:3306'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_DATABASE: 'roost'
+      MYSQL_USER: 'roost'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    volumes:
+      - 'db:/var/lib/mysql'
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-ppassword"]
+      retries: 3
+      timeout: 5s
+
+volumes:
+  db:
