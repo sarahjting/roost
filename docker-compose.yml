@@ -15,9 +15,9 @@ services:
     restart: on-failure
     working_dir: /app
     ports:
-      - 8081:8080 # application
-      - 35729:35729 # livereload
-      - 5005:5005 # debugger
+      - '8081:8080' # application
+      - '35729:35729' # livereload
+      - '5005:5005' # debugger
     stdin_open: true
     tty: true
   db:

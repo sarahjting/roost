@@ -1,6 +1,9 @@
 package com.sarahjting.roost.user;
 
+import com.sarahjting.roost.common.validation.Password;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -15,9 +18,12 @@ public class User {
     private UUID id;
 
     @Column(name = "email", unique = true, nullable = false)
+    @Email
+    @NotBlank
     private String email;
 
     @Column(name = "password", nullable = false)
+    @Password
     private String password;
 
     @Column(name = "created_at", nullable = false)
@@ -25,6 +31,10 @@ public class User {
 
     @Column(name = "last_activity_at")
     private LocalDateTime lastActivityAt;
+
+    public User() {
+
+    }
 
     public User(String email, String password) {
         this.email = email;

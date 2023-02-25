@@ -1,14 +1,13 @@
 package com.sarahjting.roost.upload;
 
-import com.sarahjting.roost.common.persistence.converters.JsonToMapConverter;
 import com.sarahjting.roost.storage.Storage;
-import com.sarahjting.roost.storage.StorageDriver;
 import com.sarahjting.roost.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -26,28 +25,37 @@ public class Upload {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
     private User user;
 
     @ManyToOne
     @JoinColumn(name = "storage_id", nullable = false)
+    @NotNull
     private Storage storage;
 
     @Column(name = "type", nullable = false)
+    @NotNull
     private UploadType type;
 
     @Column(name = "file_name", nullable = false)
+    @NotBlank
     private String fileName;
 
     @Column(name = "original_file_name", nullable = false)
+    @NotBlank
     private String originalFileName;
 
     @Column(name = "original_file_size", nullable = false)
-    private String originalFileSize;
+    @NotNull
+    @Size(min=1)
+    private Long originalFileSize;
 
     @Column(name = "original_mime_type", nullable = false)
+    @NotNull
     private String originalMimeType;
 
     @Column(name = "original_extension", nullable = false)
+    @NotNull
     private String originalExtension;
 
     @Column(name = "original_image_width")
@@ -59,7 +67,11 @@ public class Upload {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    public Upload(User user, Storage storage, UploadType type, String fileName, String originalFileName, String originalFileSize, String originalMimeType, String originalExtension) {
+    public Upload()
+    {
+    }
+
+    public Upload(User user, Storage storage, UploadType type, String fileName, String originalFileName, Long originalFileSize, String originalMimeType, String originalExtension) {
         this.user = user;
         this.storage = storage;
         this.type = type;
@@ -71,7 +83,7 @@ public class Upload {
         this.createdAt = LocalDateTime.now();
     }
 
-    public Upload(User user, Storage storage, UploadType type, String fileName, String originalFileName, String originalFileSize, String originalMimeType, String originalExtension, Long originalImageWidth, Long originalImageHeight) {
+    public Upload(User user, Storage storage, UploadType type, String fileName, String originalFileName, Long originalFileSize, String originalMimeType, String originalExtension, Long originalImageWidth, Long originalImageHeight) {
         this.user = user;
         this.storage = storage;
         this.type = type;
@@ -133,11 +145,11 @@ public class Upload {
         this.originalFileName = originalFileName;
     }
 
-    public String getOriginalFileSize() {
+    public Long getOriginalFileSize() {
         return originalFileSize;
     }
 
-    public void setOriginalFileSize(String originalFileSize) {
+    public void setOriginalFileSize(Long originalFileSize) {
         this.originalFileSize = originalFileSize;
     }
 

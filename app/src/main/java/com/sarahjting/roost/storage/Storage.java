@@ -3,6 +3,8 @@ package com.sarahjting.roost.storage;
 import com.sarahjting.roost.common.persistence.converters.JsonToMapConverter;
 import com.sarahjting.roost.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -22,12 +24,15 @@ public class Storage {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
     private User user;
 
     @Column(name = "name", nullable = false)
+    @NotBlank
     private String name;
 
     @Column(name = "driver", nullable = false)
+    @NotNull
     private StorageDriver driver;
 
     @Column(name = "created_at", nullable = false)
@@ -42,6 +47,16 @@ public class Storage {
     @Column(name = "metadata")
     @Convert(converter = JsonToMapConverter.class)
     private Map<String, Object> metadata = new HashMap<>();
+
+    public Storage(User user, String name, StorageDriver driver) {
+        this.user = user;
+        this.name = name;
+        this.driver = driver;
+        this.createdAt = LocalDateTime.now();
+    }
+
+    public Storage() {
+    }
 
     public Storage(User user, String name, StorageDriver driver, Map<String, Object> metadata) {
         this.user = user;
