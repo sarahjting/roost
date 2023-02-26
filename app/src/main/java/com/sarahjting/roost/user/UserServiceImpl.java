@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Slice<User> findSlice(Pageable pageable) {
-        return userRepository.findSliceBy(pageable);
+        return userRepository.findSliceByOrderByEmailAsc(pageable);
     }
 
     @Override

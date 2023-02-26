@@ -3,13 +3,17 @@ package com.sarahjting.roost.storage;
 import com.sarahjting.roost.user.User;
 import com.sarahjting.roost.user.UserService;
 import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
+@Rollback
+@Transactional
 public class StorageServiceTests {
     @Autowired
     private StorageService storageService;
