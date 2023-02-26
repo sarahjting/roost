@@ -1,5 +1,8 @@
 package com.sarahjting.roost.user;
 
+import com.sarahjting.roost.user.projections.UserBasicProjection;
+import com.sarahjting.roost.user.services.UserCreator;
+import com.sarahjting.roost.user.services.UserService;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -23,57 +26,35 @@ public class UserServiceTests {
     UserService userService;
 
     @Autowired
+    UserCreator userCreator;
+
+    @Autowired
     EntityManager entityManager;
-
-    @Test
-    public void givenSave_whenNewUser_thenCreateUser()
-    {
-        User newUser = new User("test@example.com", "p4$$w0Rd");
-        User savedUser = userService.save(newUser);
-        User retrievedUser = entityManager.find(User.class, savedUser.getId());
-
-        assertThat(retrievedUser).isNotNull();
-        assertThat(retrievedUser).isEqualTo(savedUser);
-    }
-
-    @Test
-    public void givenSave_whenExistingUser_thenUpdateUser()
-    {
-        User newUser = new User("test@example.com", "p4$$w0Rd");
-        newUser = userService.save(newUser);
-        newUser.setEmail("test-updated@example.com");
-        User savedUser = userService.save(newUser);
-
-        User retrievedUser = entityManager.find(User.class, savedUser.getId());
-        assertThat(retrievedUser.getEmail()).isEqualTo(newUser.getEmail());
-        assertThat(savedUser.getEmail()).isEqualTo(savedUser.getEmail());
-    }
 
     @Test
     public void givenUsers_thenSlice()
     {
         List<User> users = new ArrayList<>();
         for (int i = 0; i < 5; i ++) {
-            User newUser = new User("test" + i + "@example.com", "p4$$w0Rd");
-            newUser = userService.save(newUser);
+            User newUser = userCreator.execute(new UserDto("test" + i + "@example.com", "p4$$w0Rd"));
             users.add(newUser);
         }
 
-        Slice<User> firstSlice = userService.findSlice(PageRequest.of(0, 2));
+        Slice<UserBasicProjection> firstSlice = userService.findSlice(PageRequest.of(0, 2));
         assertThat(firstSlice.getNumberOfElements()).isEqualTo(2);
-        assertThat(firstSlice.getContent()).containsAll(Set.of(users.get(0), users.get(1)));
+        assertThat(firstSlice.getContent().stream().map(t -> t.getId())).containsAll(Set.of(users.get(0).getId(), users.get(1).getId()));
         assertThat(firstSlice.hasNext()).isTrue();
         assertThat(firstSlice.hasPrevious()).isFalse();
 
-        Slice<User> middleSlice = userService.findSlice(PageRequest.of(1, 2));
+        Slice<UserBasicProjection> middleSlice = userService.findSlice(PageRequest.of(1, 2));
         assertThat(middleSlice.getNumberOfElements()).isEqualTo(2);
-        assertThat(middleSlice.getContent()).containsAll(Set.of(users.get(2), users.get(3)));
+        assertThat(middleSlice.getContent().stream().map(t -> t.getId())).containsAll(Set.of(users.get(2).getId(), users.get(3).getId()));
         assertThat(middleSlice.hasNext()).isTrue();
         assertThat(middleSlice.hasPrevious()).isTrue();
 
-        Slice<User> lastSlice = userService.findSlice(PageRequest.of(2, 2));
+        Slice<UserBasicProjection> lastSlice = userService.findSlice(PageRequest.of(2, 2));
         assertThat(lastSlice.getNumberOfElements()).isEqualTo(1);
-        assertThat(lastSlice.getContent()).containsAll(Set.of(users.get(4)));
+        assertThat(lastSlice.getContent().stream().map(t -> t.getId())).containsAll(Set.of(users.get(4).getId()));
         assertThat(lastSlice.hasNext()).isFalse();
         assertThat(lastSlice.hasPrevious()).isTrue();
     }

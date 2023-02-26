@@ -1,5 +1,6 @@
 package com.sarahjting.roost.storage;
 
+import com.sarahjting.roost.storage.projections.StorageBasicProjection;
 import com.sarahjting.roost.user.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +23,13 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
-    public Optional<Storage> findOneById(UUID id) {
-        return storageRepository.findById(id);
+    public Optional<StorageBasicProjection> findBasicById(UUID id) {
+        return storageRepository.findBasicById(id);
     }
 
     @Override
-    public Slice<Storage> findSliceByUser(User user, Pageable pageable) {
-        return storageRepository.findSliceByUser(user, pageable);
+    public Slice<StorageBasicProjection> findBasicSliceByUser(User user, Pageable pageable) {
+        return storageRepository.findBasicSliceByUser(user, pageable);
     }
 
     @Override

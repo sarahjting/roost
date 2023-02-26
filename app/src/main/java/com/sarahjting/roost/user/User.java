@@ -12,6 +12,7 @@ import java.util.UUID;
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
@@ -33,13 +34,6 @@ public class User {
     private LocalDateTime lastActivityAt;
 
     public User() {
-
-    }
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-        this.createdAt = LocalDateTime.now();
     }
 
     public UUID getId() {

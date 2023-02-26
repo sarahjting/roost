@@ -1,6 +1,7 @@
 package com.sarahjting.roost.common.validation;
 
 import com.sarahjting.roost.user.User;
+import com.sarahjting.roost.user.UserDto;
 import jakarta.validation.ConstraintValidatorContext;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -48,10 +49,10 @@ public class PasswordRuleValidatorTests {
         assertThat(validate(password)).isNotEmpty();
     }
 
-    private Set<ConstraintViolation<User>> validate(String password) {
-        User user = new User("test@example.com", password);
+    private Set<ConstraintViolation<UserDto>> validate(String password) {
+        UserDto user = new UserDto("test@example.com", password);
         Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-        Set<ConstraintViolation<User>> violations = validator.validate(user);
+        Set<ConstraintViolation<UserDto>> violations = validator.validate(user);
         return violations;
     }
 }

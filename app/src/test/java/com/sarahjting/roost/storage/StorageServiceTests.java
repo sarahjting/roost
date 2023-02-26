@@ -1,7 +1,8 @@
 package com.sarahjting.roost.storage;
 
 import com.sarahjting.roost.user.User;
-import com.sarahjting.roost.user.UserService;
+import com.sarahjting.roost.user.UserDto;
+import com.sarahjting.roost.user.services.UserCreator;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,7 @@ public class StorageServiceTests {
     private StorageService storageService;
 
     @Autowired
-    private UserService userService;
+    private UserCreator userCreator;
 
     @Autowired
     private EntityManager entityManager;
@@ -27,8 +28,7 @@ public class StorageServiceTests {
     @Test
     public void givenSave_whenNewStorage_thenCreateStorage()
     {
-        User user = new User("test@example.com", "p4$$w0RD!");
-        user = userService.save(user);
+        User user = userCreator.execute(new UserDto("test@example.com", "p4$$w0RD!"));
 
         Storage newStorage = new Storage(user, "New Storage", StorageDriver.B2);
         Storage savedStorage = storageService.save(newStorage);

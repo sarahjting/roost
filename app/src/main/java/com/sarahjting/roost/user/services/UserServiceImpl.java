@@ -1,5 +1,8 @@
-package com.sarahjting.roost.user;
+package com.sarahjting.roost.user.services;
 
+import com.sarahjting.roost.user.User;
+import com.sarahjting.roost.user.UserRepository;
+import com.sarahjting.roost.user.projections.UserBasicProjection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
@@ -14,11 +17,6 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public User save(User user) {
-        return userRepository.save(user);
-    }
-
-    @Override
     public Optional<User> findOneById(UUID id) {
         return userRepository.findById(id);
     }
@@ -29,12 +27,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Slice<User> findSlice(Pageable pageable) {
+    public Slice<UserBasicProjection> findSlice(Pageable pageable) {
         return userRepository.findSliceByOrderByEmailAsc(pageable);
     }
 
     @Override
     public void delete(User user) {
         userRepository.delete(user);
+    }
+
+    @Override
+    public Long countAll() {
+        return userRepository.count();
     }
 }
