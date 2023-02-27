@@ -10,14 +10,14 @@ public class StorageBasicProjection {
     String name;
     StorageDriver driver;
 
-    public StorageBasicProjection(Storage storage) {
-        this(storage.getId(), storage.getName(), storage.getDriver());
-    }
-
     public StorageBasicProjection(UUID id, String name, StorageDriver driver) {
         this.id = id;
         this.name = name;
         this.driver = driver;
+    }
+
+    public static StorageBasicProjection fromStorage(Storage storage) {
+        return new StorageBasicProjection(storage.getId(), storage.getName(), storage.getDriver());
     }
 
     public UUID getId() {

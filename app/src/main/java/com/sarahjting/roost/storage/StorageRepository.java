@@ -12,6 +12,7 @@ import java.util.UUID;
 
 @Repository
 public interface StorageRepository extends JpaRepository<Storage, UUID> {
+    Slice<Storage> findSliceByUser(User user, Pageable pageable);
     Slice<StorageBasicProjection> findBasicSliceByUser(User user, Pageable pageable);
     Optional<StorageBasicProjection> findBasicById(UUID id);
 }

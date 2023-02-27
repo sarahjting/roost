@@ -1,5 +1,7 @@
 package com.sarahjting.roost.user.projections;
 
+import com.sarahjting.roost.user.User;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -14,6 +16,10 @@ public class UserBasicProjection {
         this.email = email;
         this.createdAt = createdAt;
         this.lastActivityAt = lastActivityAt;
+    }
+
+    static public UserBasicProjection fromUser(User user) {
+        return new UserBasicProjection(user.getId(), user.getEmail(), user.getCreatedAt(), user.getLastActivityAt());
     }
 
     public UUID getId() {

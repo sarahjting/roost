@@ -2,11 +2,16 @@ package com.sarahjting.roost.common.security;
 
 import com.sarahjting.roost.user.User;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class UserDetailsAdapter implements UserDetails {
+    String ROLE_PREFIX = "ROLE_";
+
     User user;
 
     public UserDetailsAdapter(User user) {
@@ -19,7 +24,13 @@ public class UserDetailsAdapter implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        List<GrantedAuthority> list = new ArrayList();
+
+        if (this.user != null) {
+            list.add(new SimpleGrantedAuthority(ROLE_PREFIX + "USER"));
+        }
+
+        return list;
     }
 
     @Override

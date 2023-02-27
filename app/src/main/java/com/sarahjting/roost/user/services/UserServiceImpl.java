@@ -27,8 +27,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Slice<UserBasicProjection> findSlice(Pageable pageable) {
-        return userRepository.findSliceByOrderByEmailAsc(pageable);
+    public Slice<UserBasicProjection> findBasicSlice(Pageable pageable) {
+        return userRepository.findBasicSliceByOrderByEmailAsc(pageable);
     }
 
     @Override

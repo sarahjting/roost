@@ -6,17 +6,14 @@ import com.sarahjting.roost.storage.services.StorageCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.projection.ProjectionFactory;
-import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
-import org.springframework.data.web.ProjectedPayload;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping("/me/storages")
-public class StorageController {
+@PreAuthorize("hasRole('USER')")
+public class StorageMeController {
     @Autowired
     StorageService storageService;
 
@@ -24,11 +21,11 @@ public class StorageController {
     StorageCreator storageCreator;
 
     @GetMapping
-    public Slice<StorageBasicProjection> index(
+    public Slice<Storage> index(
         @AuthenticationPrincipal UserDetailsAdapter userDetails,
         @RequestParam(name = "page", defaultValue = "1") int page
     ) {
-        return storageService.findBasicSliceByUser(userDetails.getUser(), PageRequest.of(page - 1, 15));
+        return storageService.findSliceByUser(userDetails.getUser(), PageRequest.of(page - 1, 15));
     }
 
     @PostMapping
@@ -37,6 +34,6 @@ public class StorageController {
         @RequestBody StorageDto storageDto
     ) {
         Storage newStorage = storageCreator.execute(userDetails.getUser(), storageDto);
-        return new StorageBasicProjection(newStorage);
+        return StorageBasicProjection.fromStorage(newStorage);
     }
 }

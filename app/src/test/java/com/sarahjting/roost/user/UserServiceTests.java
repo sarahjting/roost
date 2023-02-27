@@ -40,19 +40,19 @@ public class UserServiceTests {
             users.add(newUser);
         }
 
-        Slice<UserBasicProjection> firstSlice = userService.findSlice(PageRequest.of(0, 2));
+        Slice<UserBasicProjection> firstSlice = userService.findBasicSlice(PageRequest.of(0, 2));
         assertThat(firstSlice.getNumberOfElements()).isEqualTo(2);
         assertThat(firstSlice.getContent().stream().map(t -> t.getId())).containsAll(Set.of(users.get(0).getId(), users.get(1).getId()));
         assertThat(firstSlice.hasNext()).isTrue();
         assertThat(firstSlice.hasPrevious()).isFalse();
 
-        Slice<UserBasicProjection> middleSlice = userService.findSlice(PageRequest.of(1, 2));
+        Slice<UserBasicProjection> middleSlice = userService.findBasicSlice(PageRequest.of(1, 2));
         assertThat(middleSlice.getNumberOfElements()).isEqualTo(2);
         assertThat(middleSlice.getContent().stream().map(t -> t.getId())).containsAll(Set.of(users.get(2).getId(), users.get(3).getId()));
         assertThat(middleSlice.hasNext()).isTrue();
         assertThat(middleSlice.hasPrevious()).isTrue();
 
-        Slice<UserBasicProjection> lastSlice = userService.findSlice(PageRequest.of(2, 2));
+        Slice<UserBasicProjection> lastSlice = userService.findBasicSlice(PageRequest.of(2, 2));
         assertThat(lastSlice.getNumberOfElements()).isEqualTo(1);
         assertThat(lastSlice.getContent().stream().map(t -> t.getId())).containsAll(Set.of(users.get(4).getId()));
         assertThat(lastSlice.hasNext()).isFalse();

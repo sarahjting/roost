@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface UserService {
     Optional<User> findOneById(UUID id);
     Optional<User> findOneByEmail(String email);
-    Slice<UserBasicProjection> findSlice(Pageable pageable);
+    Slice<UserBasicProjection> findBasicSlice(Pageable pageable);
     void delete(User user);
     Long countAll();
 }

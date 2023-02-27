@@ -3,13 +3,12 @@ package com.sarahjting.roost.user;
 import com.sarahjting.roost.user.projections.UserBasicProjection;
 import com.sarahjting.roost.user.services.UserCreator;
 import com.sarahjting.roost.user.services.UserService;
+import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Optional;
-import java.util.UUID;
 
 @RestController
 @RequestMapping("/users")
@@ -21,20 +20,15 @@ public class UserController {
     UserCreator userCreator;
 
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     public Slice<UserBasicProjection> index(
         @RequestParam(name = "page", defaultValue = "1") int page
     ) {
-        return userService.findSlice(PageRequest.of(page - 1, 15));
-    }
-
-    @GetMapping("{id}")
-    public Optional<User> getUserById(
-        @PathVariable("id") UUID id
-    ) {
-        return userService.findOneById(id);
+        return userService.findBasicSlice(PageRequest.of(page - 1, 15));
     }
 
     @PostMapping
+    @PermitAll
     public User createUser(
         @RequestBody UserDto userDto
     ) {

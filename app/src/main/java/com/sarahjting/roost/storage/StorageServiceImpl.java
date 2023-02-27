@@ -33,6 +33,11 @@ public class StorageServiceImpl implements StorageService {
     }
 
     @Override
+    public Slice<Storage> findSliceByUser(User user, Pageable pageable) {
+        return storageRepository.findSliceByUser(user, pageable);
+    }
+
+    @Override
     public void delete(Storage storage) {
         storageRepository.delete(storage);
     }
