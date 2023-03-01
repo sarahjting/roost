@@ -1,4 +1,4 @@
-package com.sarahjting.roost.common.config;
+package com.sarahjting.roost.common.logging;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
