@@ -5,4 +5,3 @@ export function load() {
     store.set(null);
     goto("/");
 }
-

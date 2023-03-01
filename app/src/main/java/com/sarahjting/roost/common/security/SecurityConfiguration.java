@@ -23,9 +23,9 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         http
             .cors().disable()
+            .csrf().disable() // we disable this as the api needs to be accessible outside of the browser
             .authorizeRequests(authorize -> authorize.anyRequest().permitAll()) // we can secure the API endpoints on the method level
             .formLogin(Customizer.withDefaults()) // this sets up the login & logout forms
             .httpBasic(Customizer.withDefaults()); // this allows authorization with a Basic token

@@ -1,37 +1,47 @@
 package com.sarahjting.roost.common.validation;
 
+import com.sarahjting.roost.user.User;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
+import jakarta.persistence.TypedQuery;
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
-import org.passay.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
-import java.util.List;
+public class UniqueInDatabaseRuleValidator implements ConstraintValidator<UniqueInDatabase, String> {
+    UniqueInDatabase constraintAnnotation;
 
-public class PasswordRuleValidator implements ConstraintValidator<Password, String> {
-    private static final int MIN_COMPLEX_RULES = 2;
-    private static final int MAX_REPETITIVE_CHARS = 3;
-    private static final int MIN_SPECIAL_CASE_CHARS = 1;
-    private static final int MIN_UPPER_CASE_CHARS = 1;
-    private static final int MIN_LOWER_CASE_CHARS = 1;
-    private static final int MIN_DIGIT_CASE_CHARS = 1;
+    @Autowired
+    EntityManager entityManager;
+
+    @Override
+    public void initialize(UniqueInDatabase constraintAnnotation) {
+        ConstraintValidator.super.initialize(constraintAnnotation);
+        this.constraintAnnotation = constraintAnnotation;
+    }
+
+    // https://www.baeldung.com/jpa-and-or-criteria-predicates
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
-        List<Rule> passwordRules = new ArrayList<>();
-        passwordRules.add(new LengthRule(8, Integer.MAX_VALUE));
-        CharacterCharacteristicsRule characterCharacteristicsRule = new CharacterCharacteristicsRule(
-            MIN_COMPLEX_RULES,
-            new CharacterRule(EnglishCharacterData.Special, MIN_SPECIAL_CASE_CHARS),
-            new CharacterRule(EnglishCharacterData.UpperCase, MIN_UPPER_CASE_CHARS),
-            new CharacterRule(EnglishCharacterData.LowerCase, MIN_LOWER_CASE_CHARS),
-            new CharacterRule(EnglishCharacterData.Digit, MIN_DIGIT_CASE_CHARS)
-        );
-        passwordRules.add(characterCharacteristicsRule);
-        passwordRules.add(new RepeatCharacterRegexRule(MAX_REPETITIVE_CHARS));
+        Class entity = constraintAnnotation.entity();
+        String attributeName = constraintAnnotation.attributeName();
 
-        PasswordValidator passwordValidator = new PasswordValidator(passwordRules);
-        PasswordData passwordData = new PasswordData(s);
-        RuleResult ruleResult = passwordValidator.validate(passwordData);
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<?> criteriaQuery = criteriaBuilder.createQuery(entity);
+        Root<?> itemRoot = criteriaQuery.from(entity);
 
-        return ruleResult.isValid();
+        Predicate predicateForFieldEqualsValue = criteriaBuilder.equal(itemRoot.get(attributeName), s);
+        criteriaQuery.where(predicateForFieldEqualsValue);
+
+        try {
+            entityManager.createQuery(criteriaQuery).getSingleResult();
+            return false;
+        } catch(NoResultException e) {
+            return true;
+        }
     }
 }

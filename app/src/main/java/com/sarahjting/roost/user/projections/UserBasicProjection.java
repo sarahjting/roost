@@ -53,4 +53,5 @@ public class UserBasicProjection {
     public void setLastActivityAt(LocalDateTime lastActivityAt) {
         this.lastActivityAt = lastActivityAt;
     }
+
 }

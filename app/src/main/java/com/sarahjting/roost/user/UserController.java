@@ -3,15 +3,16 @@ package com.sarahjting.roost.user;
 import com.sarahjting.roost.user.projections.UserBasicProjection;
 import com.sarahjting.roost.user.services.UserCreator;
 import com.sarahjting.roost.user.services.UserService;
-import jakarta.annotation.security.PermitAll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserController {
     @Autowired
     UserService userService;
@@ -28,10 +29,10 @@ public class UserController {
     }
 
     @PostMapping
-    @PermitAll
-    public User createUser(
-        @RequestBody UserDto userDto
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserBasicProjection createUser(
+        @RequestBody @Validated UserDto userDto
     ) {
-        return userCreator.execute(userDto);
+        return UserBasicProjection.fromUser(userCreator.execute(userDto));
     }
 }

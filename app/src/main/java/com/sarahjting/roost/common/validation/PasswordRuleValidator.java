@@ -16,6 +16,10 @@ public class PasswordRuleValidator implements ConstraintValidator<Password, Stri
     private static final int MIN_DIGIT_CASE_CHARS = 1;
     @Override
     public boolean isValid(String s, ConstraintValidatorContext constraintValidatorContext) {
+        if (s == null) {
+            return false;
+        }
+
         List<Rule> passwordRules = new ArrayList<>();
         passwordRules.add(new LengthRule(8, Integer.MAX_VALUE));
         CharacterCharacteristicsRule characterCharacteristicsRule = new CharacterCharacteristicsRule(
