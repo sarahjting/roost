@@ -1,18 +1,11 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { redirect } from '@sveltejs/kit';
 	import { getUserDetails, generateBasicToken } from '../../../hooks/auth';
 	import { store } from '../../../hooks/auth';
 
 	let email = '';
 	let password = '';
 	let error = '';
-
-	export function load() {
-		if ($store !== null) {
-			throw redirect(302, '/');
-		}
-	}
 
 	async function login() {
 		error = '';

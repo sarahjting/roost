@@ -156,7 +156,7 @@
 						>
 
 						<a
-							href="#"
+							href="/auth/logout"
 							class="block py-2 px-4 text-sm text-gray-700"
 							role="menuitem"
 							tabindex="-1"
