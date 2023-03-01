@@ -1,17 +1,17 @@
-<script>
-	import '../app.css';
+<script lang="ts">
+	import '../../app.css';
 	import LayoutHeader from './LayoutHeader.svelte';
 	import LayoutSidebar from './LayoutSidebar.svelte';
 </script>
 
 <LayoutHeader />
 <div class="min-h-full">
-   <div class="py-10">
-        <div class="mx-auto max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-8 lg:px-8">
-            <LayoutSidebar />
-            <slot />
-        </div>
-    </div>
+	<div class="py-10">
+		<div class="mx-auto max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-8 lg:px-8">
+			<LayoutSidebar />
+			<slot />
+		</div>
+	</div>
 </div>
 
 <style>
