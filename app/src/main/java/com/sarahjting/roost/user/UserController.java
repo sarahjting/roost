@@ -33,6 +33,7 @@ public class UserController {
     public UserBasicProjection createUser(
         @RequestBody @Validated UserDto userDto
     ) {
+        // TODO: we should catch the unique key conflict exception here and re-throw it as a validation exception...
         return UserBasicProjection.fromUser(userCreator.execute(userDto));
     }
 }
