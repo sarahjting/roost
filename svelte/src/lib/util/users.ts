@@ -7,7 +7,7 @@ export interface CreateUserForm {
 };
 
 export const createUser = (user: CreateUserForm) => {
-    return axios.post(api("users"), user)
+    return api.post("users", {data: user})
         .then((res) => {
             return res.data;
         });

@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import axios, { type AxiosResponse } from "axios";
+import { type AxiosResponse } from "axios";
 import { api } from "../lib/util/api";
 import { Buffer } from "buffer";
 
@@ -9,13 +9,11 @@ export const auth = (() => {
         subscribe,
         login: (email: string, password: string) => {
             const token = generateBasicToken(email, password);
-            return axios.get(api("me"), {
-                headers: {
-                    Authorization: `Basic ${token}`
-                },
-            }).then((res: AxiosResponse) => {
-                set({ ...res.data, token });
-            });
+            return api.withToken(token).get("me")
+                .then((res: AxiosResponse) => {
+                    api.setToken(token);
+                    set({ ...res.data, token });
+                });
         },
         logout: () => {
             set(null);
