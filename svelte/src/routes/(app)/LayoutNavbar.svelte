@@ -13,7 +13,7 @@
 		<div class="flex justify-center pb-3 lg:static xl:col-span-2">
 			<div class="flex flex-shrink-0 items-center text-rose-100">
 				<a href="#" class="flex items-center">
-					<CrowRegular size={8} color="rose-100" />
+					<CrowRegular className="w-8 h-8 text-rose-100" />
 					<span class="ml-2 font-bold hidden lg:block"> ROOST </span>
 				</a>
 			</div>
