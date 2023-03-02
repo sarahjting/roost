@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import type { AxiosError } from 'axios';
-	import FormError from '../../../common/form/errors/FormError.svelte';
-	import FormFieldError from '../../../common/form/errors/FormFieldError.svelte';
+	import FormError from '../../../components/form/errors/FormError.svelte';
+	import FormFieldError from '../../../components/form/errors/FormFieldError.svelte';
 	import { createUser, type User } from '../../../hooks/auth';
 
 	let email = '';

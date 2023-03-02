@@ -1,14 +1,17 @@
 <script lang="ts">
 	import '../../app.css';
 	import LayoutHeader from './LayoutHeader.svelte';
-	import LayoutSidebar from './LayoutSidebar.svelte';
+	import LayoutNavbar from './LayoutNavbar.svelte';
 </script>
 
-<LayoutHeader />
-<div class="min-h-full">
-	<div class="py-10">
-		<div class="mx-auto max-w-3xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-12 lg:gap-8 lg:px-8">
-			<LayoutSidebar />
+<div class="flex h-full">
+	<LayoutNavbar />
+
+	<!-- Content area -->
+	<div class="flex flex-1 flex-col overflow-hidden">
+		<LayoutHeader />
+		<!-- Main content -->
+		<div class="flex flex-1 items-stretch overflow-hidden">
 			<slot />
 		</div>
 	</div>
