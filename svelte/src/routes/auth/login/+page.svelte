@@ -10,7 +10,7 @@
 	>
 		<div class="mx-auto w-full max-w-sm lg:w-96">
 			<div>
-				<CrowRegular color="rose-500" size={10} />
+				<CrowRegular color="rose-500" size={8} />
 				<h2 class="mt-6 text-3xl font-bold tracking-tight text-gray-900">Sign-in</h2>
 				<p class="mt-2 text-sm text-gray-600">
 					Or

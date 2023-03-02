@@ -3,7 +3,7 @@
 	import type { AxiosError } from 'axios';
 	import FormError from '../../../components/form/errors/FormError.svelte';
 	import FormFieldError from '../../../components/form/errors/FormFieldError.svelte';
-	import { createUser, type User } from '../../../hooks/auth';
+	import { createUser } from '../../../lib/util/users';
 
 	let email = '';
 	let password = '';
@@ -12,9 +12,7 @@
 	async function register() {
 		errors = [];
 		createUser({ email, password })
-			.then((user: User) => {
-				goto('/auth/login');
-			})
+			.then(() => goto('/auth/login'))
 			.catch((e: AxiosError) => {
 				errors = e.response?.data?.errors;
 			});

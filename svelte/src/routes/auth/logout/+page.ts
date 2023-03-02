@@ -1,7 +1,7 @@
-import { goto } from '$app/navigation';
-import { store } from '../../../hooks/auth';
+import { redirect } from '@sveltejs/kit';
+import { auth } from '../../../stores/auth';
 
 export function load() {
-    store.set(null);
-    goto("/");
+    auth.logout();
+    throw redirect(302, "/");
 }

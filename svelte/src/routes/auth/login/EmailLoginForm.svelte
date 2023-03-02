@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { getUserDetails, generateBasicToken } from '../../../hooks/auth';
-	import { store } from '../../../hooks/auth';
+	import { auth } from '../../../stores/auth';
 
 	let email = '';
 	let password = '';
@@ -9,13 +8,10 @@
 
 	async function login() {
 		error = '';
-		const user = await getUserDetails(generateBasicToken(email, password));
-		if (user) {
-			$store = user;
-			goto('/');
-		} else {
-			error = 'Invalid credentials provided';
-		}
+		auth
+			.login(email, password)
+			.then(() => goto('/'))
+			.catch(() => (error = 'Invalid credentials provided.'));
 	}
 </script>
 
