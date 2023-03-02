@@ -19,9 +19,9 @@
 			</div>
 		</div>
 		<div class="space-y-1 py-3">
-			<LayoutNavbarLink icon={HomeIcon} title="Home" />
-			<LayoutNavbarLink icon={SettingsIcon} title="Settings" />
-			<LayoutNavbarLink icon={StatsIcon} title="Stats" />
+			<LayoutNavbarLink icon={HomeIcon} title="Home" to="/" />
+			<LayoutNavbarLink icon={SettingsIcon} title="Settings" to="/settings" />
+			<LayoutNavbarLink icon={StatsIcon} title="Stats" to="/stats" />
 		</div>
 		<div class="py-4">
 			<p class="px-3 text-sm font-medium text-rose-600" id="folders-headline">Folders</p>

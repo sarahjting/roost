@@ -1,12 +1,11 @@
 <script lang="ts">
-	import type { SvelteComponent } from 'svelte';
-
 	export let title: string;
 	export let icon: ConstructorOfATypedSvelteComponent;
+	export let to: string;
 </script>
 
 <a
-	href="#"
+	href={to}
 	class="text-rose-200 hover:bg-rose-900 group flex items-center px-3 py-2 text-sm font-medium rounded-md"
 >
 	<svelte:component
