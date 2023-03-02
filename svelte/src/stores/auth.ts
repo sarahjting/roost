@@ -15,8 +15,6 @@ export const auth = (() => {
                 },
             }).then((res: AxiosResponse) => {
                 set({ ...res.data, token });
-            }).catch(() => {
-                return null;
             });
         },
         logout: () => {
