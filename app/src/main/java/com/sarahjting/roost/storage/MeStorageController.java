@@ -38,8 +38,8 @@ public class MeStorageController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public StorageBasicProjection create(
-            @AuthenticationPrincipal UserDetailsAdapter userDetails,
-            @RequestBody @Validated StorageDto storageDto
+        @AuthenticationPrincipal UserDetailsAdapter userDetails,
+        @RequestBody @Validated StorageDto storageDto
     ) {
         Storage newStorage = storageCreator.execute(userDetails.getUser(), storageDto);
         return StorageBasicProjection.fromStorage(newStorage);
@@ -48,8 +48,8 @@ public class MeStorageController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void delete(
-            @AuthenticationPrincipal UserDetailsAdapter userDetails,
-            @PathVariable("id") UUID id
+        @AuthenticationPrincipal UserDetailsAdapter userDetails,
+        @PathVariable("id") UUID id
     ) {
         // it might be a better idea to pull the storage down first
         // then check the user ID in the application layer (this allows us to show a more detailed error message)
