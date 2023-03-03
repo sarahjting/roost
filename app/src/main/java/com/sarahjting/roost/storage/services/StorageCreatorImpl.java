@@ -1,6 +1,7 @@
 package com.sarahjting.roost.storage.services;
 
 import com.sarahjting.roost.storage.Storage;
+import com.sarahjting.roost.storage.StorageDriver;
 import com.sarahjting.roost.storage.StorageDto;
 import com.sarahjting.roost.storage.StorageRepository;
 import com.sarahjting.roost.user.User;
@@ -21,8 +22,11 @@ public class StorageCreatorImpl implements StorageCreator {
         newStorage.setName(storageDto.getName());
         newStorage.setDriver(storageDto.getDriver());
 
-        // todo: calculate the endpoint if the driver is AWS
-        newStorage.setEndpoint(storageDto.getEndpoint());
+        if (storageDto.getDriver() == StorageDriver.S3) {
+            newStorage.setEndpoint("com.amazonaws." + storageDto.getRegion() + ".s3");
+        } else {
+            newStorage.setEndpoint(storageDto.getEndpoint());
+        }
 
         // this needs to be encrypted
         newStorage.setAccessKey(storageDto.getAccessKey());
