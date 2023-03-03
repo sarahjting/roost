@@ -5,7 +5,7 @@ import { api } from "./api";
 
 export const createUser = (user: CreateUserForm) => {
     return api.post("users", {data: user})
-        .then((res: AxiosResponse): User => {
+        .then((res: AxiosResponse<User>): User => {
             return res.data;
         });
 };

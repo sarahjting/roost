@@ -6,7 +6,7 @@
 	let password = '';
 	let error = '';
 
-	async function login() {
+	function login() {
 		error = '';
 		auth
 			.login(email, password)

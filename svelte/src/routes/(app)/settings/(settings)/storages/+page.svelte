@@ -9,12 +9,15 @@
 	import StorageIndex from './StorageIndex.svelte';
 
 	let storages: Array<Storage> | null = null;
-
-	api.get('me/storages').then((res: AxiosResponse<PageableSlice<Storage>>) => {
-		storages = res.data.content;
-	});
-
 	let showNewStorageModal: boolean = false;
+
+	function loadStorages() {
+		api.get('me/storages').then((res: AxiosResponse<PageableSlice<Storage>>) => {
+			storages = res.data.content;
+		});
+	}
+
+	loadStorages();
 </script>
 
 {#if storages === null}
@@ -42,4 +45,11 @@
 	{/if}
 {/if}
 
-<NewStorageModal show={showNewStorageModal} on:close={() => (showNewStorageModal = false)} />
+<NewStorageModal
+	show={showNewStorageModal}
+	on:close={() => (showNewStorageModal = false)}
+	on:complete={() => {
+		showNewStorageModal = false;
+		loadStorages();
+	}}
+/>
