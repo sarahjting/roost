@@ -1,12 +1,8 @@
-import { redirect } from "@sveltejs/kit";
 import { auth } from "$lib/stores/auth";
+import { redirect } from "@sveltejs/kit";
 
-export async function load() {
-    auth.subscribe((user) => {
-        if (!user) {
-            throw redirect(302, "/auth/login");
-        }
-
-        return { user };
-    });
-}
+auth.subscribe((user) => {
+    if (!user) {
+        throw redirect(302, '/auth/login');
+    }
+});

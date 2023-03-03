@@ -2,6 +2,15 @@
 	import '$src/app.css';
 	import CrowRegular from '$lib/components/icons/CrowRegular.svelte';
 	import EmailLoginForm from './EmailLoginForm.svelte';
+	import { onMount } from 'svelte';
+	import { auth } from '$lib/stores/auth';
+	import { goto } from '$app/navigation';
+
+	onMount(() => {
+		if ($auth) {
+			goto('/');
+		}
+	});
 </script>
 
 <div class="flex min-h-full">

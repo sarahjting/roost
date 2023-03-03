@@ -1,17 +1,27 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
 	import { auth } from '$lib/stores/auth';
 
 	let email = '';
 	let password = '';
 	let error = '';
+	let isLoading = false;
 
 	function login() {
 		error = '';
+		isLoading = true;
 		auth
 			.login(email, password)
 			.then(() => goto('/'))
-			.catch(() => (error = 'Invalid credentials provided.'));
+			.catch((e) => {
+				if (e.response) {
+					error = 'Invalid credentials provided.';
+				} else {
+					throw e;
+				}
+			})
+			.finally(() => (isLoading = false));
 	}
 </script>
 
@@ -64,11 +74,7 @@
 		</div>
 
 		<div>
-			<button
-				type="submit"
-				class="flex w-full justify-center rounded-md border border-transparent bg-rose-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-rose-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:ring-offset-2"
-				>Sign in</button
-			>
+			<PrimaryButton full loading={isLoading} type="submit">Sign in</PrimaryButton>
 			<div class="mt-2 text-rose-500">
 				{error}
 			</div>

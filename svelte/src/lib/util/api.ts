@@ -12,6 +12,10 @@ class ApiClient {
         this.token = token;
     }
 
+    getToken(): string | null {
+        return this.token;
+    }
+
     send(method: string, url: string, requestConfig: AxiosRequestConfig | null = null) {
         if (requestConfig === null) {
             requestConfig = {};
