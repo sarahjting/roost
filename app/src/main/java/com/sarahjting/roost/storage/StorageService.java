@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface StorageService {
     Storage save(Storage storage);
-    Optional<StorageBasicProjection> findBasicById(UUID id);
-    Slice<StorageBasicProjection> findBasicSliceByUser(User user, Pageable pageable);
+    Optional<Storage> findAuthorizedById(User user, UUID id);
+    Slice<StorageBasicProjection> findAuthorizedBasicSlice(User user, Pageable pageable);
     void delete(Storage storage);
 }
