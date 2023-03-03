@@ -1,8 +1,41 @@
 <script lang="ts">
+	import { createEventDispatcher } from 'svelte';
 	export let storages: Array<any>;
 	import PrimaryButton from '../../../../../components/buttons/PrimaryButton.svelte';
 	import SecondaryButton from '../../../../../components/buttons/SecondaryButton.svelte';
 	import WarehouseIcon from '../../../../../components/icons/WarehouseIcon.svelte';
+	import {
+		deleteStorage as apiDeleteStorage,
+		setStorageDefault as apiSetStorageDefault
+	} from '$lib/util/storages';
+	const dispatch = createEventDispatcher();
+
+	let errors: Array<{ id: string; message: string }> = [];
+
+	function setStorageDefault(storage: Storage) {
+		errors = [];
+		apiSetStorageDefault(storage.id)
+			.then(() => {
+				dispatch('complete');
+			})
+			.catch(() => {
+				errors.push({ id: storage.id, message: 'An error occurred, please try again.' });
+				errors = errors;
+			});
+	}
+
+	function deleteStorage(storage: Storage) {
+		// TODO: add an error dialog
+		errors = [];
+		apiDeleteStorage(storage.id)
+			.then(() => {
+				dispatch('complete');
+			})
+			.catch(() => {
+				errors.push({ id: storage.id, message: 'An error occurred, please try again.' });
+				errors = errors;
+			});
+	}
 </script>
 
 <div class="overflow-hidden bg-white shadow sm:rounded-md">
@@ -35,8 +68,22 @@
 					<!-- Right -->
 
 					<div class="flex-1 items-center px-4 py-4 sm:px-6 text-right">
-						<SecondaryButton disabled={i === 0} size="xs">Set as default</SecondaryButton>
-						<PrimaryButton size="xs">Remove</PrimaryButton>
+						<div>
+							<SecondaryButton
+								disabled={i === 0}
+								size="xs"
+								on:click={() => i !== 0 && setStorageDefault(storage)}
+								>Set as default</SecondaryButton
+							>
+							<PrimaryButton size="xs" on:click={() => deleteStorage(storage)}>Remove</PrimaryButton
+							>
+						</div>
+
+						{#if errors.length && errors.find((e) => e.id == storage.id)}
+							<div class="mt-2 text-rose-500 text-sm">
+								{errors.find((e) => e.id == storage.id).message}
+							</div>
+						{/if}
 					</div>
 				</div>
 			</li>

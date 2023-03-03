@@ -10,6 +10,7 @@
 <button
 	type="button"
 	class="inline-flex items-center rounded px-{padding[0]} py-{padding[1]} text-{size} font-medium shadow-sm {className}"
+	on:click
 >
 	<slot />
 </button>

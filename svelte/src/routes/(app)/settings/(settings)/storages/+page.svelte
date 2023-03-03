@@ -41,7 +41,7 @@
 	{#if storages.length === 0}
 		<StorageEmptyState on:click={() => (showNewStorageModal = true)} />
 	{:else}
-		<StorageIndex {storages} />
+		<StorageIndex {storages} on:complete={loadStorages} />
 	{/if}
 {/if}
 

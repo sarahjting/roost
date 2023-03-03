@@ -36,6 +36,10 @@ class ApiClient {
         return this.send('post', url, requestConfig);
     }
 
+    delete(url: string, requestConfig: AxiosRequestConfig | null = null) {
+        return this.send('delete', url, requestConfig);
+    }
+
     withToken(token: string) {
         return withToken(token);
     }
