@@ -1,11 +1,10 @@
 <script lang="ts">
 	import BaseButton from './BaseButton.svelte';
 	export let disabled: boolean = false;
-	export let size: string = 'sm';
 </script>
 
 <BaseButton
-	{size}
+	{...$$restProps}
 	className="
         {disabled && 'border border-rose-100 bg-rose-100 text-rose-300 cursor-not-allowed'}
         {!disabled &&
