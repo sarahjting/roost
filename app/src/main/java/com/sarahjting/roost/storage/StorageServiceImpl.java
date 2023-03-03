@@ -29,7 +29,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Slice<StorageBasicProjection> findAuthorizedBasicSlice(User user, Pageable pageable) {
-        return storageRepository.findSliceByUser(user, pageable, StorageBasicProjection.class);
+        return storageRepository.findSliceByUserOrderByNameAsc(user, pageable, StorageBasicProjection.class);
     }
 
     @Override
