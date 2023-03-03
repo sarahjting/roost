@@ -9,16 +9,15 @@
 		deleteStorage as apiDeleteStorage,
 		setStorageDefault as apiSetStorageDefault
 	} from '$lib/util/storages';
+	import type { Storage } from '$lib/types/Storage';
 	const dispatch = createEventDispatcher();
 
 	let errors: Array<{ id: string; message: string }> = [];
 
 	function setStorageDefault(storage: Storage) {
 		errors = [];
-		apiSetStorageDefault(storage.id)
-			.then(() => {
-				dispatch('complete');
-			})
+		return apiSetStorageDefault(storage.id)
+			.then(() => dispatch('complete'))
 			.catch(() => {
 				errors.push({ id: storage.id, message: 'An error occurred, please try again.' });
 				errors = errors;
@@ -73,8 +72,7 @@
 							<SecondaryButton
 								disabled={storage.id === $auth.defaultStorage?.id}
 								size="xs"
-								on:click={() =>
-									(i !== storage.id) === $auth.defaultStorage?.id && setStorageDefault(storage)}
+								on:click={() => i !== $auth.defaultStorage?.id && setStorageDefault(storage)}
 								>Set as default</SecondaryButton
 							>
 							<PrimaryButton size="xs" on:click={() => deleteStorage(storage)}>Remove</PrimaryButton

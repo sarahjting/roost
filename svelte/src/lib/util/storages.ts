@@ -18,6 +18,8 @@ export const setStorageDefault = (storageId: string) => {
             if (res.status !== 202) {
                 throw new Error(`Unexpected status code ${res.status}.`);
             }
+            
+            return res.data;
         });
 };
 

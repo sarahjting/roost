@@ -7,6 +7,7 @@
 	import NewStorageModal from './NewStorageModal.svelte';
 	import StorageEmptyState from './StorageEmptyState.svelte';
 	import StorageIndex from './StorageIndex.svelte';
+	import { auth } from '$lib/stores/auth';
 
 	let storages: Array<Storage> | null = null;
 	let showNewStorageModal: boolean = false;
@@ -15,6 +16,10 @@
 		api.get('me/storages').then((res: AxiosResponse<PageableSlice<Storage>>) => {
 			storages = res.data.content;
 		});
+	}
+
+	function reloadStorages() {
+		auth.revalidate().then(loadStorages);
 	}
 
 	loadStorages();
@@ -41,7 +46,7 @@
 	{#if storages.length === 0}
 		<StorageEmptyState on:click={() => (showNewStorageModal = true)} />
 	{:else}
-		<StorageIndex {storages} on:complete={loadStorages} />
+		<StorageIndex {storages} on:complete={reloadStorages} />
 	{/if}
 {/if}
 
@@ -50,6 +55,6 @@
 	on:close={() => (showNewStorageModal = false)}
 	on:complete={() => {
 		showNewStorageModal = false;
-		loadStorages();
+		reloadStorages();
 	}}
 />
