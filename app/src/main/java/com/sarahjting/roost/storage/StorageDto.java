@@ -3,8 +3,12 @@ package com.sarahjting.roost.storage;
 import com.sarahjting.roost.storage.validation.StorageDtoAnnotation;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 
 @StorageDtoAnnotation
+@Getter
+@Setter
 public class StorageDto {
 
     @NotBlank(message = "Name must be provided.")
@@ -36,62 +40,6 @@ public class StorageDto {
         this.region = region;
         this.accessKey = accessKey;
         this.secretKey = secretKey;
-        this.bucketName = bucketName;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public StorageDriver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(StorageDriver driver) {
-        this.driver = driver;
-    }
-
-    public String getEndpoint() {
-        return endpoint;
-    }
-
-    public void setEndpoint(String endpoint) {
-        this.endpoint = endpoint;
-    }
-
-    public String getRegion() {
-        return region;
-    }
-
-    public void setRegion(String region) {
-        this.region = region;
-    }
-
-    public String getAccessKey() {
-        return accessKey;
-    }
-
-    public void setAccessKey(String accessKey) {
-        this.accessKey = accessKey;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    public String getBucketName() {
-        return bucketName;
-    }
-
-    public void setBucketName(String bucketName) {
         this.bucketName = bucketName;
     }
 }

@@ -1,10 +1,14 @@
 package com.sarahjting.roost.user.projections;
 
 import com.sarahjting.roost.user.User;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
+@Setter
 public class UserBasicProjection {
     UUID id;
     String email;
@@ -21,37 +25,4 @@ public class UserBasicProjection {
     static public UserBasicProjection fromUser(User user) {
         return new UserBasicProjection(user.getId(), user.getEmail(), user.getCreatedAt(), user.getLastActivityAt());
     }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getLastActivityAt() {
-        return lastActivityAt;
-    }
-
-    public void setLastActivityAt(LocalDateTime lastActivityAt) {
-        this.lastActivityAt = lastActivityAt;
-    }
-
 }

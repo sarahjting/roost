@@ -3,9 +3,11 @@ package com.sarahjting.roost.upload;
 import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.user.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,6 +19,8 @@ import java.util.UUID;
     @Index(name="uploads_user_type", columnList = "user_id, created_at, type"),
     @Index(name="uploads_storage", columnList = "storage_id, created_at")
 })
+@Getter
+@Setter
 public class Upload {
     @Id
     @Column(name = "id")
@@ -41,156 +45,45 @@ public class Upload {
     @NotBlank
     private String fileName;
 
+    @Column(name = "file_size", nullable = false)
+    @NotNull
+    @Min(1)
+    private Long fileSize;
+
+    @Column(name = "mime_type", nullable = false)
+    @NotNull
+    private String mimeType;
+
+    @Column(name = "image_width")
+    private Long imageWidth;
+
+    @Column(name = "image_height")
+    private Long imageHeight;
+
     @Column(name = "original_file_name", nullable = false)
     @NotBlank
     private String originalFileName;
 
-    @Column(name = "original_file_size", nullable = false)
-    @NotNull
-    @Size(min=1)
-    private Long originalFileSize;
-
-    @Column(name = "original_mime_type", nullable = false)
-    @NotNull
-    private String originalMimeType;
-
-    @Column(name = "original_extension", nullable = false)
-    @NotNull
-    private String originalExtension;
-
-    @Column(name = "original_image_width")
-    private Long originalImageWidth;
-
-    @Column(name = "original_image_height")
-    private Long originalImageHeight;
-
     @Column(name = "created_at")
     private LocalDateTime createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 
     public Upload()
     {
     }
 
-    public Upload(User user, Storage storage, UploadType type, String fileName, String originalFileName, Long originalFileSize, String originalMimeType, String originalExtension) {
+    public Upload(User user, Storage storage, UploadType type, String fileName, Long fileSize, String mimeType, Long imageWidth, Long imageHeight, String originalFileName) {
         this.user = user;
         this.storage = storage;
         this.type = type;
         this.fileName = fileName;
+        this.fileSize = fileSize;
+        this.mimeType = mimeType;
+        this.imageWidth = imageWidth;
+        this.imageHeight = imageHeight;
         this.originalFileName = originalFileName;
-        this.originalFileSize = originalFileSize;
-        this.originalMimeType = originalMimeType;
-        this.originalExtension = originalExtension;
-        this.createdAt = LocalDateTime.now();
-    }
-
-    public Upload(User user, Storage storage, UploadType type, String fileName, String originalFileName, Long originalFileSize, String originalMimeType, String originalExtension, Long originalImageWidth, Long originalImageHeight) {
-        this.user = user;
-        this.storage = storage;
-        this.type = type;
-        this.fileName = fileName;
-        this.originalFileName = originalFileName;
-        this.originalFileSize = originalFileSize;
-        this.originalMimeType = originalMimeType;
-        this.originalExtension = originalExtension;
-        this.originalImageWidth = originalImageWidth;
-        this.originalImageHeight = originalImageHeight;
-        this.createdAt = LocalDateTime.now();
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Storage getStorage() {
-        return storage;
-    }
-
-    public void setStorage(Storage storage) {
-        this.storage = storage;
-    }
-
-    public UploadType getType() {
-        return type;
-    }
-
-    public void setType(UploadType type) {
-        this.type = type;
-    }
-
-    public String getFileName() {
-        return fileName;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
-    public String getOriginalFileName() {
-        return originalFileName;
-    }
-
-    public void setOriginalFileName(String originalFileName) {
-        this.originalFileName = originalFileName;
-    }
-
-    public Long getOriginalFileSize() {
-        return originalFileSize;
-    }
-
-    public void setOriginalFileSize(Long originalFileSize) {
-        this.originalFileSize = originalFileSize;
-    }
-
-    public String getOriginalMimeType() {
-        return originalMimeType;
-    }
-
-    public void setOriginalMimeType(String originalMimeType) {
-        this.originalMimeType = originalMimeType;
-    }
-
-    public String getOriginalExtension() {
-        return originalExtension;
-    }
-
-    public void setOriginalExtension(String originalExtension) {
-        this.originalExtension = originalExtension;
-    }
-
-    public Long getOriginalImageWidth() {
-        return originalImageWidth;
-    }
-
-    public void setOriginalImageWidth(Long originalImageWidth) {
-        this.originalImageWidth = originalImageWidth;
-    }
-
-    public Long getOriginalImageHeight() {
-        return originalImageHeight;
-    }
-
-    public void setOriginalImageHeight(Long originalImageHeight) {
-        this.originalImageHeight = originalImageHeight;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
     }
 
     @Override

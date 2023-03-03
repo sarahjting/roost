@@ -1,9 +1,12 @@
 package com.sarahjting.roost.user;
 
 import com.sarahjting.roost.common.validation.Password;
+import com.sarahjting.roost.storage.Storage;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -11,6 +14,8 @@ import java.util.UUID;
 
 @Entity
 @Table(name = "users")
+@Getter
+@Setter
 public class User {
 
     @Id
@@ -33,49 +38,11 @@ public class User {
     @Column(name = "last_activity_at")
     private LocalDateTime lastActivityAt;
 
+    @Column(name = "default_storage_id")
+    private Storage storage;
+
     public User() {
     }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public LocalDateTime getLastActivityAt() {
-        return lastActivityAt;
-    }
-
-    public void setLastActivityAt(LocalDateTime lastActivityAt) {
-        this.lastActivityAt = lastActivityAt;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

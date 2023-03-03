@@ -2,9 +2,13 @@ package com.sarahjting.roost.storage.projections;
 
 import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.storage.StorageDriver;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.UUID;
 
+@Getter
+@Setter
 public class StorageBasicProjection {
     UUID id;
     String name;
@@ -18,29 +22,5 @@ public class StorageBasicProjection {
 
     public static StorageBasicProjection fromStorage(Storage storage) {
         return new StorageBasicProjection(storage.getId(), storage.getName(), storage.getDriver());
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public StorageDriver getDriver() {
-        return driver;
-    }
-
-    public void setDriver(StorageDriver driver) {
-        this.driver = driver;
     }
 }

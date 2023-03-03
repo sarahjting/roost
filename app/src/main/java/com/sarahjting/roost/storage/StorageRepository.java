@@ -1,6 +1,5 @@
 package com.sarahjting.roost.storage;
 
-import com.sarahjting.roost.storage.projections.StorageBasicProjection;
 import com.sarahjting.roost.user.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
