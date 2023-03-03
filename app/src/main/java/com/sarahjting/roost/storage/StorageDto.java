@@ -1,27 +1,42 @@
 package com.sarahjting.roost.storage;
 
+import com.sarahjting.roost.storage.validation.StorageDtoAnnotation;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+@StorageDtoAnnotation
 public class StorageDto {
-    @NotBlank
+
+    @NotBlank(message = "Name must be provided.")
     private String name;
 
-    @NotNull
+    @NotNull(message = "Driver must be provided.")
     private StorageDriver driver;
 
-    private String b2AppKey;
+    // either the endpoint or the region can be provided; the endpoint can be derived from the driver and region
+    private String endpoint;
 
-    private String b2AppKeyId;
+    private String region;
 
-    private String b2BucketName;
+    @NotBlank(message = "Access key must be provided.")
+    private String accessKey;
 
-    public StorageDto(String name, StorageDriver driver, String b2ApiKey, String b2ApiKeyId, String b2BucketName) {
+    @NotBlank(message = "Secret key must be provided.")
+    private String secretKey;
+
+    @NotBlank(message = "Bucket must be provided.")
+    private String bucketName;
+
+    public StorageDto() {}
+
+    public StorageDto(String name, StorageDriver driver, String endpoint, String region, String accessKey, String secretKey, String bucketName) {
         this.name = name;
         this.driver = driver;
-        this.b2AppKey = b2ApiKey;
-        this.b2AppKeyId = b2ApiKeyId;
-        this.b2BucketName = b2BucketName;
+        this.endpoint = endpoint;
+        this.region = region;
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.bucketName = bucketName;
     }
 
     public String getName() {
@@ -40,27 +55,43 @@ public class StorageDto {
         this.driver = driver;
     }
 
-    public String getB2AppKey() {
-        return b2AppKey;
+    public String getEndpoint() {
+        return endpoint;
     }
 
-    public void setB2AppKey(String b2AppKey) {
-        this.b2AppKey = b2AppKey;
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
     }
 
-    public String getB2AppKeyId() {
-        return b2AppKeyId;
+    public String getRegion() {
+        return region;
     }
 
-    public void setB2AppKeyId(String b2AppKeyId) {
-        this.b2AppKeyId = b2AppKeyId;
+    public void setRegion(String region) {
+        this.region = region;
     }
 
-    public String getB2BucketName() {
-        return b2BucketName;
+    public String getAccessKey() {
+        return accessKey;
     }
 
-    public void setB2BucketName(String b2BucketName) {
-        this.b2BucketName = b2BucketName;
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
     }
 }

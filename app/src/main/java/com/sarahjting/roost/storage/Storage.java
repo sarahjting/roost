@@ -35,6 +35,22 @@ public class Storage {
     @NotNull
     private StorageDriver driver;
 
+    @Column(name = "endpoint", nullable = false)
+    @NotBlank
+    private String endpoint;
+
+    @Column(name = "access_key", nullable = false)
+    @NotBlank
+    private String accessKey;
+
+    @Column(name = "secret_key", nullable = false)
+    @NotBlank
+    private String secretKey;
+
+    @Column(name = "bucket_name", nullable = false)
+    @NotBlank
+    private String bucketName;
+
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
@@ -48,22 +64,28 @@ public class Storage {
     @Convert(converter = JsonToMapConverter.class)
     private Map<String, Object> metadata = new HashMap<>();
 
-    public Storage(User user, String name, StorageDriver driver) {
+    public Storage(User user, String name, StorageDriver driver, String endpoint, String accessKey, String secretKey, String bucketName) {
         this.user = user;
         this.name = name;
         this.driver = driver;
-        this.createdAt = LocalDateTime.now();
+        this.endpoint = endpoint;
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.bucketName = bucketName;
+    }
+
+    public Storage(User user, String name, StorageDriver driver, String endpoint, String accessKey, String secretKey, String bucketName, Map<String, Object> metadata) {
+        this.user = user;
+        this.name = name;
+        this.driver = driver;
+        this.endpoint = endpoint;
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+        this.bucketName = bucketName;
+        this.metadata = metadata;
     }
 
     public Storage() {
-    }
-
-    public Storage(User user, String name, StorageDriver driver, Map<String, Object> metadata) {
-        this.user = user;
-        this.name = name;
-        this.driver = driver;
-        this.metadata = metadata;
-        this.createdAt = LocalDateTime.now();
     }
 
     public UUID getId() {
@@ -98,12 +120,36 @@ public class Storage {
         this.driver = driver;
     }
 
-    public Map<String, Object> getMetadata() {
-        return metadata;
+    public String getEndpoint() {
+        return endpoint;
     }
 
-    public void setMetadata(Map<String, Object> metadata) {
-        this.metadata = metadata;
+    public void setEndpoint(String endpoint) {
+        this.endpoint = endpoint;
+    }
+
+    public String getAccessKey() {
+        return accessKey;
+    }
+
+    public void setAccessKey(String accessKey) {
+        this.accessKey = accessKey;
+    }
+
+    public String getSecretKey() {
+        return secretKey;
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getBucketName() {
+        return bucketName;
+    }
+
+    public void setBucketName(String bucketName) {
+        this.bucketName = bucketName;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -128,6 +174,14 @@ public class Storage {
 
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public Map<String, Object> getMetadata() {
+        return metadata;
+    }
+
+    public void setMetadata(Map<String, Object> metadata) {
+        this.metadata = metadata;
     }
 
     @Override

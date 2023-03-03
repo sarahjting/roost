@@ -24,17 +24,12 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Optional<StorageBasicProjection> findBasicById(UUID id) {
-        return storageRepository.findBasicById(id);
+        return storageRepository.findById(id, StorageBasicProjection.class);
     }
 
     @Override
     public Slice<StorageBasicProjection> findBasicSliceByUser(User user, Pageable pageable) {
-        return storageRepository.findBasicSliceByUser(user, pageable);
-    }
-
-    @Override
-    public Slice<Storage> findSliceByUser(User user, Pageable pageable) {
-        return storageRepository.findSliceByUser(user, pageable);
+        return storageRepository.findSliceByUser(user, pageable, StorageBasicProjection.class);
     }
 
     @Override

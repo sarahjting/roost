@@ -30,11 +30,36 @@ public class StorageServiceTests {
     {
         User user = userCreator.execute(new UserDto("test@example.com", "p4$$w0RD!"));
 
-        Storage newStorage = new Storage(user, "New Storage", StorageDriver.B2);
+        Storage newStorage = new Storage(
+                user,
+                "New Storage",
+                StorageDriver.B2,
+                "endpoint",
+                "access key",
+                "secret key",
+                "bucket"
+        );
+
         Storage savedStorage = storageService.save(newStorage);
         Storage retrievedStorage = entityManager.find(Storage.class, savedStorage.getId());
 
         assertThat(retrievedStorage).isNotNull();
         assertThat(retrievedStorage).isEqualTo(savedStorage);
+    }
+
+    @Test
+    public void givenSave_whenExistingStorage_thenUpdateStorage()
+    {
+        User user = userCreator.execute(new UserDto("test@example.com", "p4$$w0RD!"));
+        Storage storage = new Storage(user, "New Storage", StorageDriver.B2, "endpoint", "access key", "secret key", "bucket");
+        storage = storageService.save(storage);
+
+        storage.setBucketName("Updated Storage");
+        storage = storageService.save(storage);
+
+        Storage retrievedStorage = entityManager.find(Storage.class, storage.getId());
+
+        assertThat(retrievedStorage).isNotNull();
+        assertThat(retrievedStorage.getName()).isEqualTo(storage.getName());
     }
 }

@@ -12,6 +12,5 @@ public interface StorageService {
     Storage save(Storage storage);
     Optional<StorageBasicProjection> findBasicById(UUID id);
     Slice<StorageBasicProjection> findBasicSliceByUser(User user, Pageable pageable);
-    Slice<Storage> findSliceByUser(User user, Pageable pageable);
     void delete(Storage storage);
 }
