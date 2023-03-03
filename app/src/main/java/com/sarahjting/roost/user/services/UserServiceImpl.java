@@ -17,11 +17,6 @@ public class UserServiceImpl implements UserService {
     UserRepository userRepository;
 
     @Override
-    public Optional<User> findOneById(UUID id) {
-        return userRepository.findById(id);
-    }
-
-    @Override
     public Optional<User> findOneByEmail(String email) {
         return userRepository.findOneByEmail(email);
     }
@@ -37,7 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Long countAll() {
-        return userRepository.count();
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }

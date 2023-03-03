@@ -3,7 +3,10 @@ package com.sarahjting.roost.storage;
 import com.sarahjting.roost.common.security.UserDetailsAdapter;
 import com.sarahjting.roost.storage.projections.StorageBasicProjection;
 import com.sarahjting.roost.storage.services.StorageCreator;
+import com.sarahjting.roost.user.User;
+import com.sarahjting.roost.user.services.UserService;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
@@ -27,6 +30,9 @@ public class MeStorageController {
     @Autowired
     StorageCreator storageCreator;
 
+    @Autowired
+    UserService userService;
+
     @GetMapping
     public Slice<StorageBasicProjection> index(
         @AuthenticationPrincipal UserDetailsAdapter userDetails,
@@ -37,6 +43,7 @@ public class MeStorageController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @Transactional
     public StorageBasicProjection create(
         @AuthenticationPrincipal UserDetailsAdapter userDetails,
         @RequestBody @Validated StorageDto storageDto
@@ -45,8 +52,29 @@ public class MeStorageController {
         return StorageBasicProjection.fromStorage(newStorage);
     }
 
+    @PostMapping("/{id}/set-default")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    @Transactional
+    public StorageBasicProjection setDefault(
+        @AuthenticationPrincipal UserDetailsAdapter userDetails,
+        @PathVariable("id") UUID id
+    ) {
+        User user = userDetails.getUser();
+        Optional<Storage> storage = storageService.findAuthorizedById(user, id);
+
+        if (storage.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No storage found.");
+        }
+
+        user.setDefaultStorage(storage.get());
+        userService.save(user);
+
+        return StorageBasicProjection.fromStorage(storage.get());
+    }
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
+    @Transactional
     public void delete(
         @AuthenticationPrincipal UserDetailsAdapter userDetails,
         @PathVariable("id") UUID id
@@ -54,10 +82,21 @@ public class MeStorageController {
         // it might be a better idea to pull the storage down first
         // then check the user ID in the application layer (this allows us to show a more detailed error message)
         // but i did want to try using compound predicates
-        Optional<Storage> storage = storageService.findAuthorizedById(userDetails.getUser(), id);
-        if (storage.isEmpty()) {
+
+        User user = userDetails.getUser();
+
+        Optional<Storage> storageResult = storageService.findAuthorizedById(user, id);
+        if (storageResult.isEmpty()) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No storage found.");
         }
-        storageService.delete(storage.get());
+
+        Storage storage = storageResult.get();
+
+        if (storage.equals(user.getDefaultStorage())) {
+            user.setDefaultStorage(null);
+            userService.save(user);
+        }
+
+        storageService.delete(storage);
     }
 }

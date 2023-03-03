@@ -9,9 +9,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 public interface UserService {
-    Optional<User> findOneById(UUID id);
     Optional<User> findOneByEmail(String email);
     Slice<UserBasicProjection> findBasicSlice(Pageable pageable);
     void delete(User user);
-    Long countAll();
+    User save(User user);
 }

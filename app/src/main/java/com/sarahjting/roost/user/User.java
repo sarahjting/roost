@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.context.annotation.Lazy;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -38,11 +39,14 @@ public class User {
     @Column(name = "last_activity_at")
     private LocalDateTime lastActivityAt;
 
-    @Column(name = "default_storage_id")
-    private Storage storage;
+    @OneToOne
+    @JoinColumn(name = "default_storage_id")
+    @Lazy
+    private Storage defaultStorage;
 
     public User() {
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

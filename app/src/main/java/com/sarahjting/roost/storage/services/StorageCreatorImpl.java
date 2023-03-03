@@ -5,6 +5,8 @@ import com.sarahjting.roost.storage.StorageDriver;
 import com.sarahjting.roost.storage.StorageDto;
 import com.sarahjting.roost.storage.StorageRepository;
 import com.sarahjting.roost.user.User;
+import com.sarahjting.roost.user.services.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,11 @@ public class StorageCreatorImpl implements StorageCreator {
     @Autowired
     StorageRepository storageRepository;
 
+    @Autowired
+    UserService userService;
+
     @Override
+    @Transactional
     public Storage execute(User user, StorageDto storageDto) {
         Storage newStorage = new Storage();
         newStorage.setUser(user);
@@ -40,6 +46,13 @@ public class StorageCreatorImpl implements StorageCreator {
 //        storageMetadata.put("app_key", storageDto.getSecretKey());
 //        storageMetadata.put("bucket_name", storageDto.getBucketName());
 
-        return storageRepository.save(newStorage);
+        newStorage = storageRepository.save(newStorage);
+
+        if (user.getDefaultStorage() == null) {
+            user.setDefaultStorage(newStorage);
+            userService.save(user);
+        }
+
+        return newStorage;
     }
 }

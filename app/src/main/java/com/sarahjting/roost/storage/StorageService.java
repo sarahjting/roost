@@ -13,4 +13,5 @@ public interface StorageService {
     Optional<Storage> findAuthorizedById(User user, UUID id);
     Slice<StorageBasicProjection> findAuthorizedBasicSlice(User user, Pageable pageable);
     void delete(Storage storage);
+    Optional<Storage> findAuthorizedDefault(User user);
 }
