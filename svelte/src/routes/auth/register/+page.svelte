@@ -1,6 +1,6 @@
 <script>
-	import '../../../app.css';
-	import CrowRegular from '../../../components/icons/CrowRegular.svelte';
+	import '$src/app.css';
+	import CrowRegular from '$lib/components/icons/CrowRegular.svelte';
 	import EmailRegisterForm from './EmailRegisterForm.svelte';
 </script>
 

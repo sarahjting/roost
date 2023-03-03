@@ -1,7 +1,7 @@
 <script lang="ts">
-	import CrowRegular from '../../../components/icons/CrowRegular.svelte';
-	import KeyIcon from '../../../components/icons/KeyIcon.svelte';
-	import WarehouseIcon from '../../../components/icons/WarehouseIcon.svelte';
+	import CrowRegular from '$lib/components/icons/CrowRegular.svelte';
+	import KeyIcon from '$lib/components/icons/KeyIcon.svelte';
+	import WarehouseIcon from '$lib/components/icons/WarehouseIcon.svelte';
 	import SettingsNavbarLink from './SettingsNavbarLink.svelte';
 
 	export let fullScreen: boolean = false;

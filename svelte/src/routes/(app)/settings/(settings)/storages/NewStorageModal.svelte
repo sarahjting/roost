@@ -3,9 +3,9 @@
 	import { createStorage } from '$lib/util/storages';
 	import type { AxiosError } from 'axios';
 	import { createEventDispatcher } from 'svelte';
-	import FormFieldError from '../../../../../components/form/errors/FormFieldError.svelte';
-	import WarehouseIcon from '../../../../../components/icons/WarehouseIcon.svelte';
-	import BasicModal from '../../../../../components/modals/BasicModal.svelte';
+	import FormFieldError from '$lib/components/form/errors/FormFieldError.svelte';
+	import WarehouseIcon from '$lib/components/icons/WarehouseIcon.svelte';
+	import BasicModal from '$lib/components/modals/BasicModal.svelte';
 	const dispatch = createEventDispatcher();
 
 	let errors: Array<any> = [];

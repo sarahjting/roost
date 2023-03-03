@@ -2,7 +2,7 @@
 	import type { PageableSlice } from '$lib/types/common/PageableSlice';
 	import { api } from '$lib/util/api';
 	import type { AxiosResponse } from 'axios';
-	import LoadingPage from '../../../../../components/common/LoadingPage.svelte';
+	import LoadingPage from '$lib/components/common/LoadingPage.svelte';
 	import NewStorageButton from './NewStorageButton.svelte';
 	import NewStorageModal from './NewStorageModal.svelte';
 	import StorageEmptyState from './StorageEmptyState.svelte';

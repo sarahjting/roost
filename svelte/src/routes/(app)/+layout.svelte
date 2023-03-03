@@ -1,5 +1,5 @@
 <script lang="ts">
-	import '../../app.css';
+	import '$src/app.css';
 	import LayoutHeader from './LayoutHeader.svelte';
 	import LayoutNavbar from './LayoutNavbar.svelte';
 </script>

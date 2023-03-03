@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { auth } from '../../../stores/auth';
+	import { auth } from '$lib/stores/auth';
 
 	let email = '';
 	let password = '';

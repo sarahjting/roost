@@ -1,7 +1,13 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
+import path from 'path';
 
 export default defineConfig({
+	resolve: {
+		alias: {
+			"$src": path.resolve("src/"),
+		}
+	},
 	plugins: [sveltekit()],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']

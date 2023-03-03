@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
+	import { auth } from '$lib/stores/auth';
 	export let storages: Array<any>;
-	import PrimaryButton from '../../../../../components/buttons/PrimaryButton.svelte';
-	import SecondaryButton from '../../../../../components/buttons/SecondaryButton.svelte';
-	import WarehouseIcon from '../../../../../components/icons/WarehouseIcon.svelte';
+	import PrimaryButton from '$lib/components/buttons/PrimaryButton.svelte';
+	import SecondaryButton from '$lib/components/buttons/SecondaryButton.svelte';
+	import WarehouseIcon from '$lib/components/icons/WarehouseIcon.svelte';
 	import {
 		deleteStorage as apiDeleteStorage,
 		setStorageDefault as apiSetStorageDefault
@@ -70,9 +71,10 @@
 					<div class="flex-1 items-center px-4 py-4 sm:px-6 text-right">
 						<div>
 							<SecondaryButton
-								disabled={i === 0}
+								disabled={storage.id === $auth.defaultStorage?.id}
 								size="xs"
-								on:click={() => i !== 0 && setStorageDefault(storage)}
+								on:click={() =>
+									(i !== storage.id) === $auth.defaultStorage?.id && setStorageDefault(storage)}
 								>Set as default</SecondaryButton
 							>
 							<PrimaryButton size="xs" on:click={() => deleteStorage(storage)}>Remove</PrimaryButton

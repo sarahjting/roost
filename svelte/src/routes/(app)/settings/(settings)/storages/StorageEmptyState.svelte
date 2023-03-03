@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { createEventDispatcher } from 'svelte';
 	const dispatch = createEventDispatcher();
-	import WarehouseIcon from '../../../../../components/icons/WarehouseIcon.svelte';
+	import WarehouseIcon from '$lib/components/icons/WarehouseIcon.svelte';
 	import NewStorageButton from './NewStorageButton.svelte';
 </script>
 

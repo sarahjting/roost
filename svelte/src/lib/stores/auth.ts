@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 import { type AxiosResponse } from "axios";
-import { api } from "../lib/util/api";
+import { api } from "$lib/util/api";
 import { Buffer } from "buffer";
 
 export const auth = (() => {

@@ -2,7 +2,7 @@
 	export let className = '';
 	export let size: string = 'sm';
 	const padding = {
-		xs: [2.5, 1.5],
+		xs: [2, 1],
 		sm: [4, 2]
 	}[size] ?? [4, 2];
 </script>

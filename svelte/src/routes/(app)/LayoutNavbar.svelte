@@ -1,8 +1,8 @@
 <script lang="ts">
-	import CrowRegular from '../../components/icons/CrowRegular.svelte';
-	import HomeIcon from '../../components/icons/HomeIcon.svelte';
-	import SettingsIcon from '../../components/icons/SettingsIcon.svelte';
-	import StatsIcon from '../../components/icons/StatsIcon.svelte';
+	import CrowRegular from '$lib/components/icons/CrowRegular.svelte';
+	import HomeIcon from '$lib/components/icons/HomeIcon.svelte';
+	import SettingsIcon from '$lib/components/icons/SettingsIcon.svelte';
+	import StatsIcon from '$lib/components/icons/StatsIcon.svelte';
 	import LayoutNavbarFolder from './LayoutNavbarFolder.svelte';
 	import LayoutNavbarLink from './LayoutNavbarLink.svelte';
 	import LayoutNavbarTag from './LayoutNavbarTag.svelte';

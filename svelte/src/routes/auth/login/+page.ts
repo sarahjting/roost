@@ -1,5 +1,5 @@
 import { redirect } from '@sveltejs/kit';
-import { auth } from '../../../stores/auth';
+import { auth } from '$lib/stores/auth';
 
 export function load() {
     auth.subscribe((user) => {

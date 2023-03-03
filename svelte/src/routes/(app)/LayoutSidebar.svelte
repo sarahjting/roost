@@ -1,5 +1,5 @@
 <script>
-	import CrowRegular from '../../components/icons/CrowRegular.svelte';
+	import CrowRegular from '$lib/components/icons/CrowRegular.svelte';
 </script>
 
 <aside class="hidden w-96 overflow-y-auto border-l border-gray-200 bg-white p-8 lg:block">
