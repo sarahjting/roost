@@ -108,4 +108,9 @@ public class Upload {
                 ", fileName='" + fileName + '\'' +
                 '}';
     }
+
+    public String getFilePath() {
+        return String.format("files/{0}", this.getFileName());
+    }
+
 }

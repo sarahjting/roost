@@ -7,6 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 
-public interface UploadCreator {
-    Upload execute(User user, Storage storage, MultipartFile file) throws IOException;
+public interface UploadFactory {
+    Upload getUpload(User user, Storage storage, MultipartFile file) throws IOException;
 }

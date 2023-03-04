@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,8 +50,8 @@ public class MeUploadController {
             try {
                 Upload upload = uploadCreator.execute(userDetails.getUser(), storage, files.get(i));
                 res.add(UploadBasicProjection.fromUpload(upload));
-            } catch (Throwable throwable) {
-                logger.error("Error occurred while uploading file " + i + " of payload", throwable);
+            } catch (IOException e) {
+                logger.error("Error occurred while uploading file " + i + " of payload", e);
                 res.add(null);
             }
         }
