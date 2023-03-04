@@ -24,6 +24,7 @@ public class UploadBasicProjection {
     Long imageWidth;
     Long imageHeight;
     String originalFileName;
+    String fileUrl;
 
     public UploadBasicProjection(UUID id, LocalDateTime createdAt, LocalDateTime updatedAt, Storage storage, UploadType type, String fileName, Long fileSize, String mimeType, Long imageWidth, Long imageHeight, String originalFileName) {
         this.id = id;
@@ -37,6 +38,7 @@ public class UploadBasicProjection {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
         this.originalFileName = originalFileName;
+        this.fileUrl = "https://" + storage.getBucketName() + "." + storage.getEndpoint() + "/files/" + fileName;
     }
 
     public static UploadBasicProjection fromUpload(Upload upload) {

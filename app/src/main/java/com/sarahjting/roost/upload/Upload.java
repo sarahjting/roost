@@ -113,4 +113,7 @@ public class Upload {
         return String.format("files/{0}", this.getFileName());
     }
 
+    public String getFileUrl() {
+        return String.format("https://{0}{1}/files/{2}", this.getStorage().getBucketName(), this.getStorage().getEndpoint(), this.getFileName());
+    }
 }

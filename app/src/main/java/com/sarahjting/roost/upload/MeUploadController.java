@@ -10,7 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/me/uploads")
@@ -38,16 +41,35 @@ public class MeUploadController {
     @GetMapping
     public Page<UploadBasicProjection> index(
         @AuthenticationPrincipal UserDetailsAdapter userDetailsAdapter,
-        @PageableDefault(size = 24) Pageable pageable
+        @RequestParam(name = "page", defaultValue = "1") String page,
+        @RequestParam(name = "sort", defaultValue = "createdAt_desc") String sort
     ) {
+        Set<String> sortableFields = Set.of("createdAt", "updatedAt", "fileSize");
+        String[] sortParts = sort.split("_");
+        String sortByField = sortParts[0];
+        String sortByDirection = sortParts.length > 1 ? sortParts[1] : "asc";
+
+        if (!sortableFields.contains(sortByField)) {
+            sortByField = "createdAt";
+        }
+
+        Pageable pageable = PageRequest.of(
+            Math.max(0, Integer.valueOf(page) - 1),
+            24,
+            Sort.by(
+                sortByDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC,
+                sortByField
+            )
+        );
+
         return uploadIndexer.findAuthorizedBasicPage(userDetailsAdapter.getUser(), pageable);
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public List<UploadBasicProjection> create(
-            @AuthenticationPrincipal UserDetailsAdapter userDetails,
-            @RequestParam("files") ArrayList<MultipartFile> files
+        @AuthenticationPrincipal UserDetailsAdapter userDetails,
+        @RequestParam("files") ArrayList<MultipartFile> files
     ) throws NoDefaultStorageException {
         List<UploadBasicProjection> res = new ArrayList<>();
 

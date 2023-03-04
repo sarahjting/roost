@@ -34,7 +34,7 @@ public class StorageServiceImpl implements StorageService {
 
     @Override
     public Optional<Storage> findAuthorizedDefault(User user) {
-        return Optional.ofNullable(user.getStorage());
+        return Optional.ofNullable(user.getDefaultStorage());
     }
 
     @Override

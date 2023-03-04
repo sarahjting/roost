@@ -19,7 +19,7 @@
 			</div>
 		</div>
 		<div class="space-y-1 py-3">
-			<LayoutNavbarLink icon={HomeIcon} title="Home" to="/" />
+			<LayoutNavbarLink icon={HomeIcon} title="Home" to="/uploads" />
 			<LayoutNavbarLink icon={SettingsIcon} title="Settings" to="/settings" />
 			<LayoutNavbarLink icon={StatsIcon} title="Stats" to="/stats" />
 		</div>
