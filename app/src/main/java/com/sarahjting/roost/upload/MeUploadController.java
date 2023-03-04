@@ -5,9 +5,13 @@ import com.sarahjting.roost.common.security.UserDetailsAdapter;
 import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.upload.projections.UploadBasicProjection;
 import com.sarahjting.roost.upload.services.UploadCreator;
+import com.sarahjting.roost.upload.services.UploadIndexer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -27,6 +31,17 @@ public class MeUploadController {
 
     @Autowired
     UploadCreator uploadCreator;
+
+    @Autowired
+    UploadIndexer uploadIndexer;
+
+    @GetMapping
+    public Page<UploadBasicProjection> index(
+        @AuthenticationPrincipal UserDetailsAdapter userDetailsAdapter,
+        @PageableDefault(size = 24) Pageable pageable
+    ) {
+        return uploadIndexer.findAuthorizedBasicPage(userDetailsAdapter.getUser(), pageable);
+    }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
