@@ -110,10 +110,10 @@ public class Upload {
     }
 
     public String getFilePath() {
-        return String.format("files/{0}", this.getFileName());
+        return String.format("files/%s", this.getFileName());
     }
 
     public String getFileUrl() {
-        return String.format("https://{0}{1}/files/{2}", this.getStorage().getBucketName(), this.getStorage().getEndpoint(), this.getFileName());
+        return String.format("https://%s%s/files/%s", this.getStorage().getBucketName(), this.getStorage().getEndpoint(), this.getFileName());
     }
 }

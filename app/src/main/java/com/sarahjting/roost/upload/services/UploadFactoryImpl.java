@@ -38,8 +38,10 @@ public class UploadFactoryImpl implements UploadFactory {
 
             // cool, looks like i don't need imagick for this
             BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(bytes));
-            upload.setImageHeight(Long.valueOf(bufferedImage.getHeight()));
-            upload.setImageWidth(Long.valueOf(bufferedImage.getWidth()));
+            if (bufferedImage != null) { // this happens if the file read fails
+                upload.setImageHeight(Long.valueOf(bufferedImage.getHeight()));
+                upload.setImageWidth(Long.valueOf(bufferedImage.getWidth()));
+            }
         } else if (mimeTypeGroup.equals("text")) {
             upload.setType(UploadType.TEXT);
         } else {

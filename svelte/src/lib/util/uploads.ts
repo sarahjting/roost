@@ -75,8 +75,13 @@ export const indexUploads = (options: {
         });
 };
 
-export const createUploads = (files: Array<File>) => {
-    return api.post("me/uploads", {data: {files}})
+export const createUploads = (files: FileList) => {
+    const filesData = new FormData();
+    for (let i = 0; i < files.length; i++) {
+      filesData.append('files', files[i]);
+    }
+
+    return api.post("me/uploads", {data: filesData})
         .then((res: AxiosResponse<Array<Upload>>): Array<Upload> => {
             return res.data;
         });
