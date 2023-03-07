@@ -3,7 +3,7 @@
 	import type { Upload } from '$lib/types/Upload';
 	import { UploadType, UploadTypeOptions } from '$lib/util/uploads';
 	import { createEventDispatcher } from 'svelte';
-	import { formatBytes } from '$lib/util/string';
+	import { formatBytes, formatDate } from '$lib/util/string';
 
 	const dispatch = createEventDispatcher();
 	export let uploads: PageablePage<Upload>;
@@ -57,7 +57,9 @@
 							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
 								{formatBytes(upload.fileSize)}
 							</td>
-							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{upload.createdAt}</td>
+							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+								>{formatDate(upload.createdAt)}</td
+							>
 						</tr>
 					{/each}
 				</tbody>

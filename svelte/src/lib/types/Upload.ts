@@ -11,6 +11,6 @@ export type Upload = {
     mimeType: string,
     storage: Storage,
     type: UploadType,
-    createdAt: Date,
-    updatedAt: Date,
+    createdAt: string,
+    updatedAt: string,
 };

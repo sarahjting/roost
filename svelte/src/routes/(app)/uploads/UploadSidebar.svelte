@@ -2,7 +2,7 @@
 	import CrowRegular from '$lib/components/icons/CrowRegular.svelte';
 	import type { Upload } from '$lib/types/Upload';
 	import { UploadType, UploadTypeOptions } from '$lib/util/uploads';
-	import { formatBytes } from '$lib/util/string';
+	import { formatBytes, formatDate } from '$lib/util/string';
 
 	export let currentUpload: Upload | null = null;
 </script>
@@ -68,13 +68,13 @@
 
 					<div class="flex justify-between py-3 text-sm font-medium">
 						<dt class="text-gray-500">Created at</dt>
-						<dd class="whitespace-nowrap text-gray-900">{currentUpload.createdAt}</dd>
+						<dd class="whitespace-nowrap text-gray-900">{formatDate(currentUpload.createdAt)}</dd>
 					</div>
 
 					{#if currentUpload.updatedAt}
 						<div class="flex justify-between py-3 text-sm font-medium">
 							<dt class="text-gray-500">Modified at</dt>
-							<dd class="whitespace-nowrap text-gray-900">{currentUpload.updatedAt}</dd>
+							<dd class="whitespace-nowrap text-gray-900">{formatDate(currentUpload.updatedAt)}</dd>
 						</div>
 					{/if}
 
