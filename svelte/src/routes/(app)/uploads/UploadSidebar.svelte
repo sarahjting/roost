@@ -2,6 +2,7 @@
 	import CrowRegular from '$lib/components/icons/CrowRegular.svelte';
 	import type { Upload } from '$lib/types/Upload';
 	import { UploadType, UploadTypeOptions } from '$lib/util/uploads';
+	import { formatBytes } from '$lib/util/string';
 
 	export let currentUpload: Upload | null = null;
 </script>
@@ -27,7 +28,7 @@
 						<h2 class="text-lg font-medium text-gray-900">
 							<span class="sr-only">Details for </span>{currentUpload.fileName}
 						</h2>
-						<p class="text-sm font-medium text-gray-500">{currentUpload.fileSize} B</p>
+						<p class="text-sm font-medium text-gray-500">{formatBytes(currentUpload.fileSize)}</p>
 					</div>
 					<button
 						type="button"

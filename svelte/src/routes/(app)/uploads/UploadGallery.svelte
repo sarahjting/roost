@@ -3,6 +3,7 @@
 	import type { Upload } from '$lib/types/Upload';
 	import { UploadType, UploadTypeOptions } from '$lib/util/uploads';
 	import { createEventDispatcher } from 'svelte';
+	import { formatBytes } from '$lib/util/string';
 
 	const dispatch = createEventDispatcher();
 	export let uploads: PageablePage<Upload>;
@@ -49,7 +50,9 @@
 				<p class="pointer-events-none mt-2 block truncate text-sm font-medium text-gray-900">
 					{upload.fileName}
 				</p>
-				<p class="pointer-events-none block text-sm font-medium text-gray-500">{upload.fileSize}</p>
+				<p class="pointer-events-none block text-sm font-medium text-gray-500">
+					{formatBytes(upload.fileSize)}
+				</p>
 			</li>
 		{/each}
 	</ul>
