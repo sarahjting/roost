@@ -5,7 +5,6 @@ import com.sarahjting.roost.storage.projections.StorageBasicProjection;
 import com.sarahjting.roost.storage.services.StorageCreator;
 import com.sarahjting.roost.user.User;
 import com.sarahjting.roost.user.services.UserService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;

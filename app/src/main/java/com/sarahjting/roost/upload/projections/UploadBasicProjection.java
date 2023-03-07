@@ -3,7 +3,6 @@ package com.sarahjting.roost.upload.projections;
 import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.storage.projections.StorageBasicProjection;
 import com.sarahjting.roost.upload.Upload;
-import com.sarahjting.roost.upload.UploadStatus;
 import com.sarahjting.roost.upload.UploadType;
 import lombok.Getter;
 import lombok.Setter;

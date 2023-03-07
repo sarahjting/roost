@@ -1,8 +1,6 @@
 package com.sarahjting.roost.common.util;
 
-import java.lang.reflect.Array;
 import java.text.Normalizer;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
