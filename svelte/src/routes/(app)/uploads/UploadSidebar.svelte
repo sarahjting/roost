@@ -15,10 +15,10 @@
 					{#if currentUpload.type === UploadType.IMAGE}
 						<img src={currentUpload.fileUrl} alt="" class="object-cover mx-auto" />
 					{:else}
-						<div class="object-cover bg-gray-200">
+						<div class="object-cover bg-gray-200 py-12">
 							<svelte:component
 								this={UploadTypeOptions[currentUpload.type].icon}
-								className="w-6 h-6 text-gray-300"
+								className="w-6 h-6 text-gray-300 mx-auto"
 							/>
 						</div>
 					{/if}
