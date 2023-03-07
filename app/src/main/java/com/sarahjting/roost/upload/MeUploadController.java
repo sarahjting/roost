@@ -53,7 +53,7 @@ public class MeUploadController {
         }
 
         Pageable pageable = PageRequest.of(
-            Math.max(0, Integer.valueOf(page) - 1),
+            Math.max(0, Integer.valueOf(page)),
             24,
             Sort.by(
                 sortByDirection.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC,

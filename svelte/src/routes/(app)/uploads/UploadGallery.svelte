@@ -11,7 +11,7 @@
 </script>
 
 <!-- Gallery -->
-<section class="mt-8 pb-16" aria-labelledby="gallery-heading">
+<section class="my-8" aria-labelledby="gallery-heading">
 	<h2 id="gallery-heading" class="sr-only">Recently viewed</h2>
 	<ul
 		role="list"
