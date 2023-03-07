@@ -3,6 +3,7 @@ package com.sarahjting.roost.upload.projections;
 import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.storage.projections.StorageBasicProjection;
 import com.sarahjting.roost.upload.Upload;
+import com.sarahjting.roost.upload.UploadStatus;
 import com.sarahjting.roost.upload.UploadType;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +27,19 @@ public class UploadBasicProjection {
     String originalFileName;
     String fileUrl;
 
-    public UploadBasicProjection(UUID id, LocalDateTime createdAt, LocalDateTime updatedAt, Storage storage, UploadType type, String fileName, Long fileSize, String mimeType, Long imageWidth, Long imageHeight, String originalFileName) {
+    public UploadBasicProjection(
+        UUID id,
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt,
+        Storage storage,
+        UploadType type,
+        String fileName,
+        Long fileSize,
+        String mimeType,
+        Long imageWidth,
+        Long imageHeight,
+        String originalFileName
+    ) {
         this.id = id;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;

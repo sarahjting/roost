@@ -6,6 +6,7 @@ import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.storage.services.StorageFileSystemFactory;
 import com.sarahjting.roost.upload.Upload;
 import com.sarahjting.roost.upload.UploadRepository;
+import com.sarahjting.roost.upload.UploadStatus;
 import com.sarahjting.roost.user.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,9 @@ public class UploadCreatorImpl implements UploadCreator {
             file.getBytes(),
             new FileSystemFileMetadata(MimeType.valueOf(upload.getMimeType()))
         );
+
+        upload.setStatus(UploadStatus.UPLOADED);
+        upload = uploadRepository.save(upload);
 
         return upload;
     }

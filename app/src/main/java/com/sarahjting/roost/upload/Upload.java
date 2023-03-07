@@ -43,6 +43,10 @@ public class Upload {
     @NotNull
     private UploadType type;
 
+    @Column(name = "status", nullable = false)
+    @NotNull
+    private UploadStatus status;
+
     @Column(name = "file_name", nullable = false)
     @NotBlank
     private String fileName;
@@ -86,6 +90,7 @@ public class Upload {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
         this.originalFileName = originalFileName;
+        this.status = UploadStatus.CREATED;
     }
 
     @Override

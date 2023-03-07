@@ -3,6 +3,7 @@ package com.sarahjting.roost.upload.services;
 import com.sarahjting.roost.common.util.StringFormatter;
 import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.upload.Upload;
+import com.sarahjting.roost.upload.UploadStatus;
 import com.sarahjting.roost.upload.UploadType;
 import com.sarahjting.roost.user.User;
 import org.apache.tika.Tika;
@@ -27,9 +28,8 @@ public class UploadFactoryImpl implements UploadFactory {
 
         Upload upload = new Upload();
         upload.setUser(user);
-
+        upload.setStatus(UploadStatus.CREATED);
         upload.setFileName(StringFormatter.fileNameToSlug(file.getOriginalFilename()));
-
         upload.setOriginalFileName(file.getOriginalFilename());
         upload.setFileSize(file.getSize());
         upload.setStorage(storage);
