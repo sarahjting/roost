@@ -2,14 +2,17 @@ package com.sarahjting.roost.upload.services;
 
 import com.sarahjting.roost.common.filesystem.FileSystem;
 import com.sarahjting.roost.common.filesystem.FileSystemFileMetadata;
+import com.sarahjting.roost.common.filesystem.UploadResponse;
 import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.storage.services.StorageFileSystemFactory;
 import com.sarahjting.roost.upload.Upload;
 import com.sarahjting.roost.upload.UploadRepository;
 import com.sarahjting.roost.upload.UploadStatus;
+import com.sarahjting.roost.upload.events.UploadFileUploaded;
 import com.sarahjting.roost.user.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeType;
@@ -20,6 +23,9 @@ import java.util.Optional;
 
 @Service
 public class UploadCreatorImpl implements UploadCreator {
+    @Autowired
+    ApplicationEventPublisher eventPublisher;
+
     @Autowired
     UploadRepository uploadRepository;
 
@@ -49,7 +55,7 @@ public class UploadCreatorImpl implements UploadCreator {
         }
 
         FileSystem fileSystem = fileSystemFactory.getClient(storage);
-        fileSystem.upload(
+        UploadResponse uploadResponse = fileSystem.upload(
             upload.getFilePath(),
             file.getBytes(),
             new FileSystemFileMetadata(MimeType.valueOf(upload.getMimeType()))
@@ -57,6 +63,8 @@ public class UploadCreatorImpl implements UploadCreator {
 
         upload.setStatus(UploadStatus.UPLOADED);
         upload = uploadRepository.save(upload);
+
+        eventPublisher.publishEvent(new UploadFileUploaded(user, upload, uploadResponse));
 
         return upload;
     }

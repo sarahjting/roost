@@ -17,12 +17,11 @@ public class FileSystemB2 implements FileSystem {
     }
 
     @Override
-    public void upload(String path, byte[] blob, FileSystemFileMetadata fileMetadata) {
+    public UploadResponse upload(String path, byte[] blob, FileSystemFileMetadata fileMetadata) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(fileMetadata.getMimeType().toString());
         objectMetadata.setHeader("X-Bz-Content-Sha1", generateSha1FromBlob(blob));
-
-        s3.upload(path, blob, objectMetadata);
+        return s3.upload(path, blob, objectMetadata);
     }
 
     private String generateSha1FromBlob(byte[] blob) {

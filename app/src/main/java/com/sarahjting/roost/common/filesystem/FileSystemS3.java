@@ -6,6 +6,7 @@ import com.amazonaws.client.builder.AwsClientBuilder;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,14 +35,20 @@ public class FileSystemS3 implements FileSystem {
     }
 
     @Override
-    public void upload(String path, byte[] blob, FileSystemFileMetadata fileMetadata) {
+    public UploadResponse upload(String path, byte[] blob, FileSystemFileMetadata fileMetadata) {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentType(fileMetadata.getMimeType().toString());
-        upload(path, blob, objectMetadata);
+        return upload(path, blob, objectMetadata);
     }
 
-    public void upload(String path, byte[] blob, ObjectMetadata objectMetadata) {
-        s3.putObject(credentials.getBucketName(), path, new ByteArrayInputStream(blob), objectMetadata);
+    public UploadResponse upload(String path, byte[] blob, ObjectMetadata objectMetadata) {
+        PutObjectResult putObjectResult = s3.putObject(credentials.getBucketName(), path, new ByteArrayInputStream(blob), objectMetadata);
+        return new UploadResponse(
+            putObjectResult.getVersionId(),
+            putObjectResult.getETag(),
+            putObjectResult.getContentMd5(),
+            putObjectResult.getMetadata().getRawMetadata()
+        );
     }
 
     @Override
