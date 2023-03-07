@@ -17,7 +17,9 @@ import java.util.UUID;
 @Table(name = "uploads", indexes = {
     @Index(name="uploads_createdAt", columnList = "created_at"),
     @Index(name="uploads_user_type", columnList = "user_id, created_at, type"),
-    @Index(name="uploads_storage", columnList = "storage_id, created_at")
+    @Index(name="uploads_storage", columnList = "storage_id, created_at"),
+    @Index(name="uploads_user_fileName", columnList = "user_id, original_file_name"),
+    @Index(name="uploads_user_fileName", columnList = "user_id, file_name", unique = true)
 })
 @Getter
 @Setter

@@ -9,11 +9,14 @@ import com.sarahjting.roost.upload.UploadRepository;
 import com.sarahjting.roost.user.User;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeType;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Service
 public class UploadCreatorImpl implements UploadCreator {
@@ -31,6 +34,20 @@ public class UploadCreatorImpl implements UploadCreator {
     public Upload execute(User user, Storage storage, MultipartFile file) throws IOException {
         Upload upload = uploadFactory.getUpload(user, storage, file);
 
+        Optional<Upload> existingUpload = uploadRepository.findByUserAndFileName(user, upload.getFileName());
+        if (existingUpload.isPresent()) {
+            setNextFileName(upload);
+        }
+
+        for (int i = 0; i < 3; i ++) {
+            try {
+                upload = uploadRepository.save(upload);
+                break;
+            } catch(DataIntegrityViolationException e) {
+                setNextFileName(upload);
+            }
+        }
+
         FileSystem fileSystem = fileSystemFactory.getClient(storage);
         fileSystem.upload(
             upload.getFilePath(),
@@ -38,6 +55,19 @@ public class UploadCreatorImpl implements UploadCreator {
             new FileSystemFileMetadata(MimeType.valueOf(upload.getMimeType()))
         );
 
-        return uploadRepository.save(upload);
+        return upload;
+    }
+
+    private Upload setNextFileName(Upload upload) {
+        String[] fileNameParts = upload.getFileName().split("\\.");
+
+        String fileNameWithTimestamp = String.format("%s-%s", fileNameParts[0], System.currentTimeMillis());
+        if (fileNameParts.length > 1) {
+            fileNameWithTimestamp = String.format("%s.%s", fileNameWithTimestamp, fileNameParts[1]);
+        }
+
+        upload.setFileName(fileNameWithTimestamp);
+
+        return upload;
     }
 }

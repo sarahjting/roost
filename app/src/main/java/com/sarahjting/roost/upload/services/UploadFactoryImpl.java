@@ -1,5 +1,6 @@
 package com.sarahjting.roost.upload.services;
 
+import com.sarahjting.roost.common.util.StringFormatter;
 import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.upload.Upload;
 import com.sarahjting.roost.upload.UploadType;
@@ -26,7 +27,9 @@ public class UploadFactoryImpl implements UploadFactory {
 
         Upload upload = new Upload();
         upload.setUser(user);
-        upload.setFileName(file.getOriginalFilename());
+
+        upload.setFileName(StringFormatter.fileNameToSlug(file.getOriginalFilename()));
+
         upload.setOriginalFileName(file.getOriginalFilename());
         upload.setFileSize(file.getSize());
         upload.setStorage(storage);
