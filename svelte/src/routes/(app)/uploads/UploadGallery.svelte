@@ -16,7 +16,7 @@
 		role="list"
 		class="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 md:grid-cols-4 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8"
 	>
-		{#each uploads.content as upload, i}
+		{#each uploads.content as upload (upload.id)}
 			<li class="relative">
 				<!-- svelte-ignore a11y-click-events-have-key-events -->
 				<div
