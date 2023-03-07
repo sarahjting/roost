@@ -12,7 +12,6 @@
 	let currentUpload: Upload | null = null;
 	uploadsLastUpdatedAt.subscribe(() => {
 		indexUploads().then((res: PageablePage<Upload>) => {
-			console.log($uploadsLastUpdatedAt);
 			uploads = res;
 			if (currentUpload == null && uploads.content.length > 0) {
 				currentUpload = uploads.content[0];
