@@ -6,10 +6,18 @@
 	import UploadSidebar from './UploadSidebar.svelte';
 	import UploadFilters from './UploadFilters.svelte';
 	import LoadingPage from '$lib/components/common/LoadingPage.svelte';
+	import { uploadsLastUpdatedAt } from '$lib/stores/layout';
 
 	let uploads: PageablePage<Upload> | null = null;
-	indexUploads().then((res: PageablePage<Upload>) => {
-		uploads = res;
+	let currentUpload: Upload | null = null;
+	uploadsLastUpdatedAt.subscribe(() => {
+		indexUploads().then((res: PageablePage<Upload>) => {
+			console.log($uploadsLastUpdatedAt);
+			uploads = res;
+			if (currentUpload == null && uploads.content.length > 0) {
+				currentUpload = uploads.content[0];
+			}
+		});
 	});
 </script>
 
@@ -21,10 +29,10 @@
 		{#if uploads === null}
 			<LoadingPage />
 		{:else}
-			<UploadGallery {uploads} />
+			<UploadGallery {uploads} {currentUpload} on:select={(e) => (currentUpload = e.detail)} />
 		{/if}
 	</div>
 </main>
 
 <!-- Details sidebar -->
-<UploadSidebar />
+<UploadSidebar {currentUpload} />

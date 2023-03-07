@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { invalidate } from '$app/navigation';
 	import CheckCircleIcon from '$lib/components/icons/CheckCircleIcon.svelte';
 	import ImageAddIcon from '$lib/components/icons/ImageAddIcon.svelte';
 	import SpinnerIcon from '$lib/components/icons/SpinnerIcon.svelte';
@@ -6,6 +7,7 @@
 	import type { AxiosError } from 'axios';
 	import { createEventDispatcher } from 'svelte';
 	import BasicModal from '../../modals/BasicModal.svelte';
+	import { uploadsLastUpdatedAt } from '$lib/stores/layout';
 	const dispatch = createEventDispatcher();
 
 	export let show: boolean = false;
@@ -17,7 +19,7 @@
 		COMPLETE: 4
 	};
 
-	let state = STATE.ERROR;
+	let state = STATE.WAITING;
 
 	let files: FileList | null = null;
 	let errors = [];
@@ -27,8 +29,10 @@
 		errors = [];
 		createUploads(files)
 			.then(() => {
+				uploadsLastUpdatedAt.set(Date.now());
 				state = STATE.COMPLETE;
 				setTimeout(() => {
+					state = STATE.WAITING;
 					dispatch('complete');
 					files = null;
 				}, 1000);
