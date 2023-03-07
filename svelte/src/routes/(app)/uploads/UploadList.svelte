@@ -22,25 +22,36 @@
 						/>
 						<th
 							scope="col"
-							class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
+							class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 sm:pl-0"
 						>
 							File
 						</th>
-						<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+						<th scope="col" class="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
 							Size
 						</th>
-						<th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+						<th scope="col" class="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
 							Created at
 						</th>
 					</tr>
 				</thead>
 				<tbody class="divide-y divide-gray-200 bg-white">
 					{#each uploads.content as upload, i}
-						<tr>
+						<tr
+							on:click={() => dispatch('select', upload)}
+							class="group cursor-pointer hover:opacity-80"
+						>
 							<td
-								class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0 flex justify-left items-center"
+								class="whitespace-nowrap py-2 pl-4 pr-1 text-sm font-medium text-gray-900 sm:pl-0 flex justify-left items-center border-l-4 {currentUpload?.id ===
+								upload.id
+									? 'border-rose-500'
+									: 'border-transparent'}"
 							>
-								<div class="h-12 w-12 rounded bg-gray-200 flex items-center overflow-hidden">
+								<div
+									class="h-12 w-12 ml-4 rounded bg-gray-200 flex items-center overflow-hidden ring-2 ring-offset-1 {currentUpload?.id ===
+									upload.id
+										? 'ring-rose-500'
+										: 'ring-transparent'}"
+								>
 									{#if upload.type === UploadType.IMAGE}
 										<img src={upload.fileUrl} class="object-cover" />
 									{:else}
@@ -51,13 +62,17 @@
 									{/if}
 								</div>
 							</td>
-							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+							<td
+								class="whitespace-nowrap py-4 text-sm {currentUpload?.id === upload.id
+									? 'text-rose-600 font-medium'
+									: 'text-gray-500'}"
+							>
 								{upload.fileName}
 							</td>
-							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+							<td class="whitespace-nowrap px-2 py-4 text-sm text-gray-500">
 								{formatBytes(upload.fileSize)}
 							</td>
-							<td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+							<td class="whitespace-nowrap px-2 py-4 text-sm text-gray-500"
 								>{formatDate(upload.createdAt)}</td
 							>
 						</tr>
