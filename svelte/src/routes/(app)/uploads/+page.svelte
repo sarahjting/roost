@@ -17,6 +17,7 @@
 	import UploadPagination from './UploadPagination.svelte';
 	import { writable } from 'svelte/store';
 	import UploadList from './UploadList.svelte';
+	import UploadEmptyState from './UploadEmptyState.svelte';
 
 	let uploads: PageablePage<Upload> | null = null;
 	let currentUpload: Upload | null = null;
@@ -47,6 +48,8 @@
 
 		{#if uploads === null}
 			<LoadingPage />
+		{:else if uploads.totalElements === 0}
+			<UploadEmptyState />
 		{:else}
 			<svelte:component
 				this={layoutMode === LAYOUT_MODE.LIST ? UploadList : UploadGallery}
