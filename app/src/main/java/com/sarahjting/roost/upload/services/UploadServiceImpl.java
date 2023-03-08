@@ -9,13 +9,20 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class UploadIndexerImpl implements UploadIndexer {
+public class UploadServiceImpl implements UploadService {
     @Autowired
     UploadRepository uploadRepository;
 
     @Override
+    public <T> Optional<T> findOneByUserAndFileName(User user, String fileName) {
+        return uploadRepository.findOneByUserAndFileName(user, fileName);
+    }
+
+    @Override
     public Page<UploadBasicProjection> findAuthorizedBasicPage(User user, Pageable pageable) {
-        return uploadRepository.findBasicPageByUserAndStatus(user, UploadStatus.UPLOADED, pageable);
+        return uploadRepository.findPageByUserAndStatus(user, UploadStatus.UPLOADED, pageable);
     }
 }

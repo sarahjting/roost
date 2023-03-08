@@ -13,9 +13,9 @@ import java.util.UUID;
 
 @Repository
 public interface UploadRepository extends JpaRepository<Upload, UUID> {
-    Optional<Upload> findByUserAndFileName(User user, String fileName);
+    <T> Optional<T> findOneByUserAndFileName(User user, String fileName);
 
-    Page<UploadBasicProjection> findBasicPageByUserAndStatus(
+    Page<UploadBasicProjection> findPageByUserAndStatus(
         @Param("user") User user,
         @Param("status") UploadStatus status,
         Pageable pageable

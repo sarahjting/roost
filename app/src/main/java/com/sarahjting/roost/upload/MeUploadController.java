@@ -5,7 +5,7 @@ import com.sarahjting.roost.common.security.UserDetailsAdapter;
 import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.upload.projections.UploadBasicProjection;
 import com.sarahjting.roost.upload.services.UploadCreator;
-import com.sarahjting.roost.upload.services.UploadIndexer;
+import com.sarahjting.roost.upload.services.UploadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,7 @@ public class MeUploadController {
     UploadCreator uploadCreator;
 
     @Autowired
-    UploadIndexer uploadIndexer;
+    UploadService uploadIndexer;
 
     @GetMapping
     public Page<UploadBasicProjection> index(

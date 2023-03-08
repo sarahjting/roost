@@ -40,7 +40,7 @@ public class UploadCreatorImpl implements UploadCreator {
     public Upload execute(User user, Storage storage, MultipartFile file) throws IOException {
         Upload upload = uploadFactory.getUpload(user, storage, file);
 
-        Optional<Upload> existingUpload = uploadRepository.findByUserAndFileName(user, upload.getFileName());
+        Optional<Upload> existingUpload = uploadRepository.findOneByUserAndFileName(user, upload.getFileName());
         if (existingUpload.isPresent()) {
             setNextFileName(upload, upload.getOriginalFileName());
         }
