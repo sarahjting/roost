@@ -42,7 +42,7 @@ public class UploadCreatorImpl implements UploadCreator {
 
         Optional<Upload> existingUpload = uploadRepository.findByUserAndFileName(user, upload.getFileName());
         if (existingUpload.isPresent()) {
-            setNextFileName(upload);
+            setNextFileName(upload, upload.getOriginalFileName());
         }
 
         for (int i = 0; i < 3; i ++) {
@@ -50,7 +50,7 @@ public class UploadCreatorImpl implements UploadCreator {
                 upload = uploadRepository.save(upload);
                 break;
             } catch(DataIntegrityViolationException e) {
-                setNextFileName(upload);
+                setNextFileName(upload, upload.getOriginalFileName());
             }
         }
 
@@ -69,16 +69,9 @@ public class UploadCreatorImpl implements UploadCreator {
         return upload;
     }
 
-    private Upload setNextFileName(Upload upload) {
-        String[] fileNameParts = upload.getFileName().split("\\.");
-
-        String fileNameWithTimestamp = String.format("%s-%s", fileNameParts[0], System.currentTimeMillis());
-        if (fileNameParts.length > 1) {
-            fileNameWithTimestamp = String.format("%s.%s", fileNameWithTimestamp, fileNameParts[1]);
-        }
-
+    private Upload setNextFileName(Upload upload, String originalFileName) {
+        String fileNameWithTimestamp = String.format("%s-%s", originalFileName, System.currentTimeMillis());
         upload.setFileName(fileNameWithTimestamp);
-
         return upload;
     }
 }

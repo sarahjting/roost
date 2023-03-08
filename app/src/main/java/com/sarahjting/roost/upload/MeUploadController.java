@@ -21,9 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.time.ZoneOffset;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/me/uploads")
@@ -91,6 +90,59 @@ public class MeUploadController {
                 res.add(null);
             }
         }
+
+        return res;
+    }
+
+    // this is intended to mirror imgur's upload API so we can plug it into different clients
+    // https://apidocs.imgur.com/#c85c9dfc-7487-4de2-9ecd-66f727cf3139
+    @PostMapping(path = "imgur", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @ResponseStatus(HttpStatus.CREATED)
+    public Map<String, ?> imgurCreate(
+        @AuthenticationPrincipal UserDetailsAdapter userDetails,
+        @RequestParam(value = "title", defaultValue = "", required = false) String title,
+        @RequestParam(value = "description", defaultValue = "", required = false) String description,
+        @RequestParam("image") MultipartFile file
+    ) throws NoDefaultStorageException, IOException {
+        Storage storage = userDetails.getUser().getDefaultStorage();
+        if (storage == null) {
+            throw new NoDefaultStorageException();
+        }
+
+        Upload upload = uploadCreator.execute(userDetails.getUser(), storage, file);
+
+        Map<String, Object> resData = new HashMap<>();
+        resData.put("id", upload.getId());
+        resData.put("title", null);
+        resData.put("description", null);
+        resData.put("datatime", upload.getCreatedAt().toEpochSecond(ZoneOffset.UTC));
+        resData.put("type", upload.getMimeType().toString());
+        resData.put("animated", false); // TODO: implement animation checking
+        resData.put("height", upload.getImageHeight());
+        resData.put("width", upload.getImageWidth());
+        resData.put("size", upload.getFileSize());
+        resData.put("views", 0);
+        resData.put("bandwidth", 0);
+        resData.put("vote", null);
+        resData.put("favorite", 0);
+        resData.put("nsfw", null);
+        resData.put("section", null);
+        resData.put("account_url", null);
+        resData.put("account_id", 0);
+        resData.put("is_ad", false);
+        resData.put("in_most_viral", false);
+        resData.put("tags", new ArrayList<>());
+        resData.put("ad_type", 0);
+        resData.put("ad_url", "");
+        resData.put("in_gallery", false);
+        resData.put("deletehash", "");
+        resData.put("name", "");
+        resData.put("link", upload.getFileUrl());
+
+        Map<String, Object> res = new HashMap<>();
+        res.put("success", true);
+        res.put("status", HttpStatus.ACCEPTED);
+        res.put("data", resData);
 
         return res;
     }

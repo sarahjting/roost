@@ -18,11 +18,8 @@ public class StringFormatter {
 
     public static String fileNameToSlug(String input) {
         int i = input.lastIndexOf('.');
-        String[] originalFileNameParts = {input.substring(0, i), input.substring(i + 1)};
-        String output = toSlug(originalFileNameParts[0]);
-        if (originalFileNameParts[1] != null) {
-            output = String.format("%s.%s", output, toSlug(originalFileNameParts[1]));
-        }
+        String fileName = i == -1 ? input : input.substring(0, i);
+        String output = toSlug(fileName);
         return output;
     }
 }
