@@ -5,6 +5,7 @@ import com.sarahjting.roost.storage.Storage;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.context.annotation.Lazy;
@@ -23,6 +24,11 @@ public class User {
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "id")
     private UUID id;
+
+    @Column(name = "username", unique = true, nullable = false)
+    @Pattern(regexp = "^[\\p{Alnum}]{1,32}$")
+    @NotBlank
+    private String username;
 
     @Column(name = "email", unique = true, nullable = false)
     @Email
@@ -64,6 +70,7 @@ public class User {
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", username='" + username + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }

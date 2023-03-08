@@ -9,12 +9,16 @@ import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired
     UserRepository userRepository;
+
+    @Override
+    public Optional<User> findOneByUsername(String username) {
+        return userRepository.findOneByUsername(username);
+    }
 
     @Override
     public Optional<User> findOneByEmail(String email) {

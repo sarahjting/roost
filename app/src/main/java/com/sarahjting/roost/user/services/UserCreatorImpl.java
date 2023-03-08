@@ -21,6 +21,7 @@ public class UserCreatorImpl implements UserCreator {
     @Transactional
     public User execute(UserDto userDto) {
         User newUser = new User();
+        newUser.setUsername(userDto.getUsername());
         newUser.setEmail(userDto.getEmail());
         newUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         newUser.setCreatedAt(LocalDateTime.now());

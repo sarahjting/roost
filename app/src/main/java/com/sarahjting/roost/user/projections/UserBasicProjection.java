@@ -13,13 +13,15 @@ import java.util.UUID;
 @Setter
 public class UserBasicProjection {
     UUID id;
+    String username;
     String email;
     LocalDateTime createdAt;
     LocalDateTime lastActivityAt;
     StorageBasicProjection defaultStorage;
 
-    public UserBasicProjection(UUID id, String email, LocalDateTime createdAt, LocalDateTime lastActivityAt, Storage defaultStorage) {
+    public UserBasicProjection(UUID id, String username, String email, LocalDateTime createdAt, LocalDateTime lastActivityAt, Storage defaultStorage) {
         this.id = id;
+        this.username = username;
         this.email = email;
         this.createdAt = createdAt;
         this.lastActivityAt = lastActivityAt;
@@ -27,6 +29,6 @@ public class UserBasicProjection {
     }
 
     static public UserBasicProjection fromUser(User user) {
-        return new UserBasicProjection(user.getId(), user.getEmail(), user.getCreatedAt(), user.getLastActivityAt(), user.getDefaultStorage());
+        return new UserBasicProjection(user.getId(), user.getUsername(), user.getEmail(), user.getCreatedAt(), user.getLastActivityAt(), user.getDefaultStorage());
     }
 }

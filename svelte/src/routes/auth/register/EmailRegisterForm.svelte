@@ -7,11 +7,12 @@
 
 	let email = '';
 	let password = '';
+	let username = '';
 	let errors: Array<any> = [];
 
 	async function register() {
 		errors = [];
-		createUser({ email, password })
+		createUser({ email, username, password })
 			.then(() => goto('/auth/login'))
 			.catch((e: AxiosError) => {
 				errors = e.response?.data?.errors;
@@ -35,6 +36,22 @@
 						class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-rose-500 sm:text-sm"
 					/>
 					<FormFieldError {errors} field="email" />
+				</div>
+			</div>
+
+			<div>
+				<label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+				<div class="mt-1">
+					<input
+						bind:value={username}
+						id="username"
+						name="username"
+						type="text"
+						autocomplete="username"
+						required
+						class="block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-rose-500 focus:outline-none focus:ring-rose-500 sm:text-sm"
+					/>
+					<FormFieldError {errors} field="username" />
 				</div>
 			</div>
 
