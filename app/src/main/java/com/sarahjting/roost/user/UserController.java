@@ -1,11 +1,14 @@
 package com.sarahjting.roost.user;
 
+import com.sarahjting.roost.storage.projections.StorageBasicProjection;
 import com.sarahjting.roost.user.projections.UserBasicProjection;
 import com.sarahjting.roost.user.services.UserCreator;
 import com.sarahjting.roost.user.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
@@ -34,6 +37,7 @@ public class UserController {
         @RequestBody @Validated UserDto userDto
     ) {
         // TODO: we should catch the unique key conflict exception here and re-throw it as a validation exception...
-        return UserBasicProjection.fromUser(userCreator.execute(userDto));
+        ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
+        return projectionFactory.createProjection(UserBasicProjection.class, userCreator.execute(userDto));
     }
 }

@@ -70,6 +70,9 @@ public class Upload {
     @NotBlank
     private String originalFileName;
 
+    @Column(name = "original_file_extension")
+    private String originalFileExtension;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -80,7 +83,7 @@ public class Upload {
     {
     }
 
-    public Upload(User user, Storage storage, UploadType type, String fileName, Long fileSize, String mimeType, Long imageWidth, Long imageHeight, String originalFileName) {
+    public Upload(User user, Storage storage, UploadType type, String fileName, Long fileSize, String mimeType, Long imageWidth, Long imageHeight, String originalFileName, String originalFileExtension) {
         this.user = user;
         this.storage = storage;
         this.type = type;
@@ -90,6 +93,7 @@ public class Upload {
         this.imageWidth = imageWidth;
         this.imageHeight = imageHeight;
         this.originalFileName = originalFileName;
+        this.originalFileExtension = originalFileExtension;
         this.status = UploadStatus.CREATED;
     }
 
@@ -116,11 +120,19 @@ public class Upload {
                 '}';
     }
 
+    public String getFileNameAndExtension() {
+        if (getOriginalFileExtension() == null) {
+            return fileName;
+        }
+
+        return String.format("%s.%s", fileName, originalFileExtension);
+    }
+
     public String getFilePath() {
-        return String.format("files/%s", this.getFileName());
+        return String.format("files/%s", this.getFileNameAndExtension());
     }
 
     public String getFileUrl() {
-        return String.format("https://%s.%s/files/%s", this.getStorage().getBucketName(), this.getStorage().getEndpoint(), this.getFileName());
+        return String.format("https://%s.%s/files/%s", storage.getBucketName(), storage.getEndpoint(), getFileNameAndExtension());
     }
 }

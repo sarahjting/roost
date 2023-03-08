@@ -3,12 +3,15 @@ package com.sarahjting.roost.storage;
 import com.sarahjting.roost.common.security.UserDetailsAdapter;
 import com.sarahjting.roost.storage.projections.StorageBasicProjection;
 import com.sarahjting.roost.storage.services.StorageCreator;
+import com.sarahjting.roost.upload.projections.UploadBasicProjection;
 import com.sarahjting.roost.user.User;
 import com.sarahjting.roost.user.services.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -48,7 +51,8 @@ public class MeStorageController {
         @RequestBody @Validated StorageDto storageDto
     ) {
         Storage newStorage = storageCreator.execute(userDetails.getUser(), storageDto);
-        return StorageBasicProjection.fromStorage(newStorage);
+        ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
+        return projectionFactory.createProjection(StorageBasicProjection.class, newStorage);
     }
 
     @PostMapping("/{id}/set-default")
@@ -68,7 +72,8 @@ public class MeStorageController {
         user.setDefaultStorage(storage.get());
         userService.save(user);
 
-        return StorageBasicProjection.fromStorage(storage.get());
+        ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
+        return projectionFactory.createProjection(StorageBasicProjection.class, storage);
     }
 
     @DeleteMapping("/{id}")

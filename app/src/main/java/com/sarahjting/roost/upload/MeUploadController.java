@@ -13,6 +13,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -84,7 +86,10 @@ public class MeUploadController {
         for (int i = 0; i < files.size(); i ++) {
             try {
                 Upload upload = uploadCreator.execute(userDetails.getUser(), storage, files.get(i));
-                res.add(UploadBasicProjection.fromUpload(upload));
+
+                // create a projection from an entity
+                ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
+                res.add(projectionFactory.createProjection(UploadBasicProjection.class, upload));
             } catch (IOException e) {
                 logger.error("Error occurred while uploading file " + i + " of payload", e);
                 res.add(null);

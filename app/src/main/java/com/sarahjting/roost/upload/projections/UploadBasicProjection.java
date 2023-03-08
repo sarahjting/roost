@@ -1,71 +1,32 @@
 package com.sarahjting.roost.upload.projections;
 
-import com.sarahjting.roost.storage.Storage;
 import com.sarahjting.roost.storage.projections.StorageBasicProjection;
-import com.sarahjting.roost.upload.Upload;
 import com.sarahjting.roost.upload.UploadType;
-import lombok.Getter;
-import lombok.Setter;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Getter
-@Setter
-public class UploadBasicProjection {
-    UUID id;
-    LocalDateTime createdAt;
-    LocalDateTime updatedAt;
-    StorageBasicProjection storage;
-    UploadType type;
-    String fileName;
-    Long fileSize;
-    String mimeType;
-    Long imageWidth;
-    Long imageHeight;
-    String originalFileName;
-    String fileUrl;
+public interface UploadBasicProjection {
+    UUID getId();
+    LocalDateTime getCreatedAt();
+    LocalDateTime getUpdatedAt();
+    StorageBasicProjection getStorage();
+    UploadType getType();
+    String getFileName();
+    Long getFileSize();
+    String getMimeType();
+    Long getImageWidth();
+    Long getImageHeight();
+    String getOriginalFileName();
+    String getOriginalFileExtension();
 
-    public UploadBasicProjection(
-        UUID id,
-        LocalDateTime createdAt,
-        LocalDateTime updatedAt,
-        Storage storage,
-        UploadType type,
-        String fileName,
-        Long fileSize,
-        String mimeType,
-        Long imageWidth,
-        Long imageHeight,
-        String originalFileName
-    ) {
-        this.id = id;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.storage = StorageBasicProjection.fromStorage(storage);
-        this.type = type;
-        this.fileName = fileName;
-        this.fileSize = fileSize;
-        this.mimeType = mimeType;
-        this.imageWidth = imageWidth;
-        this.imageHeight = imageHeight;
-        this.originalFileName = originalFileName;
-        this.fileUrl = "https://" + storage.getBucketName() + "." + storage.getEndpoint() + "/files/" + fileName;
-    }
+    // the projection will only have access to the entity getters/setters on derived queries!!!
+    // if you use JPQL it returns an anonymous map instead of an entity
 
-    public static UploadBasicProjection fromUpload(Upload upload) {
-        return new UploadBasicProjection(
-            upload.getId(),
-            upload.getCreatedAt(),
-            upload.getUpdatedAt(),
-            upload.getStorage(),
-            upload.getType(),
-            upload.getFileName(),
-            upload.getFileSize(),
-            upload.getMimeType(),
-            upload.getImageWidth(),
-            upload.getImageHeight(),
-            upload.getOriginalFileName()
-        );
-    }
+    @Value("#{target.getFileNameAndExtension()}")
+    String getFileNameAndExtension();
+
+    @Value("#{target.getFileUrl()}")
+    String getFileUrl();
 }

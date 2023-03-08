@@ -1,6 +1,7 @@
 package com.sarahjting.roost.upload.services;
 
 import com.sarahjting.roost.upload.UploadRepository;
+import com.sarahjting.roost.upload.UploadStatus;
 import com.sarahjting.roost.upload.projections.UploadBasicProjection;
 import com.sarahjting.roost.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,6 @@ public class UploadIndexerImpl implements UploadIndexer {
 
     @Override
     public Page<UploadBasicProjection> findAuthorizedBasicPage(User user, Pageable pageable) {
-        return uploadRepository.findBasicPageByUser(user, pageable);
+        return uploadRepository.findBasicPageByUserAndStatus(user, UploadStatus.UPLOADED, pageable);
     }
 }

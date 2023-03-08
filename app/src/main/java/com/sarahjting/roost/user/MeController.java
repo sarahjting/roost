@@ -2,6 +2,8 @@ package com.sarahjting.roost.user;
 
 import com.sarahjting.roost.common.security.UserDetailsAdapter;
 import com.sarahjting.roost.user.projections.UserBasicProjection;
+import org.springframework.data.projection.ProjectionFactory;
+import org.springframework.data.projection.SpelAwareProxyProjectionFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,7 @@ public class MeController {
     public UserBasicProjection getMe(
         @AuthenticationPrincipal UserDetailsAdapter userDetails
     ) {
-        return UserBasicProjection.fromUser(userDetails.getUser());
+        ProjectionFactory projectionFactory = new SpelAwareProxyProjectionFactory();
+        return projectionFactory.createProjection(UserBasicProjection.class, userDetails.getUser());
     }
 }

@@ -12,6 +12,6 @@ import java.util.UUID;
 @Repository
 public interface UserRepository extends JpaRepository<User, UUID> {
     Slice<UserBasicProjection> findBasicSliceByOrderByEmailAsc(Pageable pageable);
-
+    Optional<User> findOneByUsername(String email);
     Optional<User> findOneByEmail(String email);
 }
