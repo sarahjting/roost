@@ -1,7 +1,12 @@
 import { redirect } from '@sveltejs/kit';
 import { auth } from '$lib/stores/auth';
+import { browser } from '$app/environment';
+import { goto } from '$app/navigation';
 
 export function load() {
     auth.logout();
-    throw redirect(302, "/");
+    if (!browser) {
+        throw redirect(302, "/");
+    }
+    goto("/");
 }
