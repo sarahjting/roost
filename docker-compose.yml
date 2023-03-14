@@ -15,7 +15,7 @@ services:
     restart: on-failure
     working_dir: /app
     ports:
-      - '8081:8080' # application
+      - '${APP_PORT:-8081}:8080' # application
       - '35729:35729' # livereload
       - '5005:5005' # debugger
     stdin_open: true
@@ -25,16 +25,16 @@ services:
     ports:
       - '3306:3306'
     environment:
-      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_ROOT_PASSWORD: '${MYSQL_ROOT_PASSWORD:-root}'
       MYSQL_ROOT_HOST: "%"
       MYSQL_DATABASE: 'roost'
-      MYSQL_USER: 'roost'
-      MYSQL_PASSWORD: 'password'
+      MYSQL_USER: '${MYSQL_USER:-roost}'
+      MYSQL_PASSWORD: '${MYSQL_PASSWORD:-password}'
       MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
     volumes:
-      - 'db:/var/lib/mysql'
+      - './db:/var/lib/mysql'
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-ppassword"]
+      test: ["CMD", "mysqladmin", "ping", "-p${MYSQL_PASSWORD}"]
       retries: 3
       timeout: 5s
   db-testing:
